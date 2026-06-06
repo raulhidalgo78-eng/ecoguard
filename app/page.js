@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Navbar from './components/Navbar'
 import ContactForm from './components/ContactForm'
+import Precios from './components/Precios'
 import { Camera, Sun, Shield, Wifi, Zap, MapPin, Phone, Mail, ChevronRight, CheckCircle, Eye, Brain, Battery, Wrench, PhoneCall, Star, Smartphone } from 'lucide-react'
 
 function Hero() {
@@ -335,6 +336,7 @@ export default function Home() {
         <ComoFunciona />
         <PorQue />
         <AppEnAccion />
+        <Precios />
         <Cobertura />
         <Contacto />
       </main>

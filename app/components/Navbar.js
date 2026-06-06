@@ -5,7 +5,7 @@ import { Menu, X, Shield } from 'lucide-react'
 
 const navLinks = [
   { href: '#servicios', label: 'Servicios' },
-  { href: '#como-funciona', label: '¿Cómo funciona?' },
+  { href: '#precios', label: 'Precios' },
   { href: '#cobertura', label: 'Cobertura' },
   { href: '#contacto', label: 'Cotizar' },
 ]
