@@ -1,6 +1,7 @@
+import Image from 'next/image'
 import Navbar from './components/Navbar'
 import ContactForm from './components/ContactForm'
-import { Camera, Sun, Shield, Wifi, Zap, MapPin, Phone, Mail, ChevronRight, CheckCircle, Eye, Brain, Battery, Wrench, PhoneCall, Star } from 'lucide-react'
+import { Camera, Sun, Shield, Wifi, Zap, MapPin, Phone, Mail, ChevronRight, CheckCircle, Eye, Brain, Battery, Wrench, PhoneCall, Star, Smartphone } from 'lucide-react'
 
 function Hero() {
   return (
@@ -85,12 +86,14 @@ function Servicios() {
   const servicios = [
     {
       icon: Camera, color: 'bg-brand-green/10 text-brand-green',
+      image: '/images/camara-instalada.jpg',
       title: 'Cámaras Solares con 4G e IA',
       description: 'Vigilancia 24/7 completamente autónoma. Nuestras cámaras funcionan con energía solar, transmiten por 4G y detectan personas, vehículos y animales con inteligencia artificial.',
       features: ['Detección inteligente con IA', 'Transmisión 4G sin cable ni WiFi', 'Panel solar integrado + batería', 'Alertas en tiempo real al celular', 'Visión nocturna avanzada', 'Instalación profesional incluida'],
     },
     {
       icon: Sun, color: 'bg-brand-solar/10 text-brand-solar-dark',
+      image: null,
       title: 'Sistemas Fotovoltaicos Llave en Mano',
       description: 'Energía solar para tu propiedad rural sin depender de la red. Diseñamos, instalamos y ponemos en marcha tu sistema fotovoltaico completo con respaldo de batería.',
       features: ['Diseño personalizado a tu consumo', 'Paneles solares de alta eficiencia', 'Baterías de litio con respaldo', 'Instalación certificada', 'Puesta en marcha incluida', 'Asesoría y soporte post-venta'],
@@ -106,7 +109,14 @@ function Servicios() {
         </div>
         <div className="grid md:grid-cols-2 gap-8">
           {servicios.map((s) => (
-            <div key={s.title} className="card">
+            <div key={s.title} className="card overflow-hidden !p-0">
+              {s.image && (
+                <div className="relative w-full h-52 overflow-hidden">
+                  <Image src={s.image} alt={s.title} fill className="object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                </div>
+              )}
+              <div className="p-8">
               <div className={`w-14 h-14 ${s.color} rounded-2xl flex items-center justify-center mb-6`}><s.icon className="w-7 h-7" /></div>
               <h3 className="text-2xl font-bold text-gray-900 mb-3">{s.title}</h3>
               <p className="text-gray-600 leading-relaxed mb-6">{s.description}</p>
@@ -116,6 +126,7 @@ function Servicios() {
                 ))}
               </ul>
               <div className="mt-8"><a href="#contacto" className="btn-primary w-full justify-center">Solicitar cotización</a></div>
+              </div>
             </div>
           ))}
         </div>
@@ -221,6 +232,48 @@ function Cobertura() {
   )
 }
 
+function AppEnAccion() {
+  const vistas = [
+    { src: '/images/app-vista1.jpg', label: 'Ingreso del predio', desc: 'Vista en tiempo real del acceso principal' },
+    { src: '/images/app-vista2.jpg', label: 'Camino interior', desc: 'Control PTZ desde tu celular' },
+    { src: '/images/app-vista3.jpg', label: 'Vigilancia 360°', desc: 'Dos lentes simultáneas, 4G permanente' },
+  ]
+  return (
+    <section className="py-24 bg-brand-gray">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 bg-brand-green/10 text-brand-green rounded-full px-4 py-1.5 text-sm font-medium mb-4">
+            <Smartphone className="w-4 h-4" /> App en acción
+          </div>
+          <h2 className="section-title mb-4">Ve tu propiedad en tiempo real</h2>
+          <p className="section-subtitle max-w-2xl mx-auto">
+            Desde tu celular, en cualquier parte. Así se ve EcoGuard operando en predios reales de la Región de Valparaíso.
+          </p>
+        </div>
+        <div className="grid md:grid-cols-3 gap-6">
+          {vistas.map((v) => (
+            <div key={v.label} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+              <div className="relative w-full h-64">
+                <Image src={v.src} alt={v.label} fill className="object-cover object-top" />
+              </div>
+              <div className="p-5">
+                <div className="font-bold text-gray-900 mb-1">{v.label}</div>
+                <div className="text-sm text-gray-500">{v.desc}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="mt-10 text-center">
+          <div className="inline-flex items-center gap-2 bg-brand-green/10 text-brand-green rounded-full px-5 py-2.5 text-sm font-medium">
+            <CheckCircle className="w-4 h-4" />
+            Transmisión 4G · Sin WiFi · Sin cortes de luz
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 function Contacto() {
   return (
     <section id="contacto" className="py-24 bg-brand-gray">
@@ -281,6 +334,7 @@ export default function Home() {
         <Servicios />
         <ComoFunciona />
         <PorQue />
+        <AppEnAccion />
         <Cobertura />
         <Contacto />
       </main>
