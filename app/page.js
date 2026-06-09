@@ -35,45 +35,35 @@ function Hero() {
         </div>
         <div className="hidden lg:flex justify-center">
           <div className="relative w-full max-w-md">
-            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-brand-solar/20 rounded-xl flex items-center justify-center">
-                  <Camera className="w-6 h-6 text-brand-solar" />
-                </div>
-                <div>
-                  <div className="text-white font-semibold">Cámara EcoGuard Pro</div>
-                  <div className="text-white/50 text-sm">En línea · Activa</div>
-                </div>
-                <div className="ml-auto w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+            {/* Foto real de la cámara instalada */}
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-[4/3]">
+              <Image src="/images/camara-instalada.jpg" alt="Cámara solar EcoGuard instalada en campo" fill sizes="50vw" className="object-cover" priority />
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/60 via-transparent to-transparent" />
+              {/* Badge "en vivo" */}
+              <div className="absolute top-4 left-4 flex items-center gap-2 bg-black/50 backdrop-blur rounded-full px-3 py-1.5">
+                <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
+                <span className="text-white text-xs font-semibold">En vivo · 4G</span>
               </div>
-              <div className="bg-brand-dark/60 rounded-2xl aspect-video flex items-center justify-center mb-6 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-brand-green/20 to-transparent" />
-                <div className="text-center">
-                  <Eye className="w-10 h-10 text-white/30 mx-auto mb-2" />
-                  <span className="text-white/40 text-xs">Vista en tiempo real · 4G</span>
+              {/* Indicadores abajo */}
+              <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
+                <div className="flex items-center gap-2 bg-black/50 backdrop-blur rounded-full px-3 py-1.5">
+                  <Sun className="w-4 h-4 text-brand-solar" />
+                  <span className="text-white text-xs">Solar · 98%</span>
                 </div>
-                <div className="absolute top-4 left-4 border border-brand-solar/60 rounded w-16 h-20 flex items-end">
-                  <div className="bg-brand-solar/80 text-white text-[9px] px-1 py-0.5 w-full text-center rounded-b">Persona</div>
+                <div className="flex items-center gap-2 bg-black/50 backdrop-blur rounded-full px-3 py-1.5">
+                  <Wifi className="w-4 h-4 text-green-400" />
+                  <span className="text-white text-xs">Señal fuerte</span>
                 </div>
-                <div className="absolute top-2 right-2 bg-red-500 rounded px-1.5 py-0.5 text-white text-[9px] font-bold">REC</div>
-              </div>
-              <div className="grid grid-cols-3 gap-3">
-                {[{ icon: Battery, label: 'Batería', value: '98%', color: 'text-green-400' }, { icon: Wifi, label: 'Señal 4G', value: 'Fuerte', color: 'text-brand-solar' }, { icon: Sun, label: 'Solar', value: 'Cargando', color: 'text-yellow-400' }].map((item) => (
-                  <div key={item.label} className="bg-white/5 rounded-xl p-3 text-center">
-                    <item.icon className={`w-5 h-5 mx-auto mb-1 ${item.color}`} />
-                    <div className={`text-xs font-semibold ${item.color}`}>{item.value}</div>
-                    <div className="text-white/40 text-[10px]">{item.label}</div>
-                  </div>
-                ))}
               </div>
             </div>
-            <div className="absolute -bottom-4 -right-4 bg-white rounded-2xl shadow-2xl p-4 flex items-center gap-3 max-w-[200px]">
-              <div className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+            {/* Tarjeta flotante de alerta */}
+            <div className="absolute -bottom-5 -right-5 bg-white rounded-2xl shadow-2xl p-4 flex items-center gap-3 max-w-[210px]">
+              <div className="w-9 h-9 bg-red-100 rounded-xl flex items-center justify-center flex-shrink-0">
                 <Shield className="w-5 h-5 text-red-500" />
               </div>
               <div>
                 <div className="text-xs font-bold text-gray-900">Alerta detectada</div>
-                <div className="text-[10px] text-gray-500">Movimiento · Sector norte</div>
+                <div className="text-[11px] text-gray-500">Movimiento · Sector norte</div>
               </div>
             </div>
           </div>
