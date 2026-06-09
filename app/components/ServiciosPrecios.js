@@ -42,7 +42,7 @@ const solar = {
   imagePosition: 'center',
   title: 'Sistemas Fotovoltaicos Llave en Mano',
   description: 'Energía solar para tu propiedad rural sin depender de la red. Diseñamos, instalamos y ponemos en marcha tu sistema fotovoltaico completo con respaldo de batería.',
-  features: ['Diseño personalizado a tu consumo', 'Paneles solares de alta eficiencia', 'Baterías de litio con respaldo', 'Instalación certificada', 'Puesta en marcha incluida', 'Asesoría y soporte post-venta'],
+  features: ['Diseño personalizado a tu consumo', 'Paneles Trina Solar N-TOPCon N-Type 720W', 'Baterías LiFePO4 ≥6.000 ciclos · 10 años', 'Instalación certificada', 'Puesta en marcha incluida', 'Asesoría y soporte post-venta'],
   planes: [
     {
       featured: false,
@@ -52,7 +52,7 @@ const solar = {
       desc: 'Para hogares y parcelas de consumo moderado.',
       precio: '$3.490.000',
       nota: 'IVA incluido · instalado',
-      items: ['6 paneles Trina 720W N-TOPCon', 'Inversor híbrido', 'Batería litio LiFePO4 4,8 kWh', 'Estructura, cableado y protecciones', 'Instalación y puesta en marcha'],
+      items: ['6 paneles Trina Solar 720W N-TOPCon N-Type', 'Inversor híbrido', 'Batería LiFePO4 48V 100Ah · 4,8 kWh', 'Estructura aluminio, cableado y protecciones', 'Instalación y puesta en marcha'],
     },
     {
       featured: true,
@@ -62,7 +62,7 @@ const solar = {
       desc: 'El equilibrio ideal entre potencia y autonomía.',
       precio: '$5.490.000',
       nota: 'IVA incluido · instalado',
-      items: ['11 paneles Trina 720W N-TOPCon', 'Inversor híbrido 10 kW (3 MPPT)', 'Batería litio LiFePO4 9,6 kWh', 'Estructura, cableado y protecciones', 'Instalación y puesta en marcha'],
+      items: ['11 paneles Trina Solar 720W N-TOPCon N-Type', 'Inversor híbrido 10.2 kW MPPT', 'Batería LiFePO4 48V 200Ah · 9,6 kWh', 'Estructura aluminio, cableado y protecciones', 'Instalación y puesta en marcha'],
     },
     {
       featured: false,
@@ -72,7 +72,7 @@ const solar = {
       desc: 'Máxima potencia para grandes propiedades o uso productivo.',
       precio: '$9.490.000',
       nota: 'IVA incluido · instalado',
-      items: ['17 paneles Trina 720W N-TOPCon', 'Inversor híbrido 10 kW (3 MPPT)', '19,2 kWh en baterías litio LiFePO4', 'Estructura inclinada, cableado y protecciones', 'Instalación y puesta en marcha'],
+      items: ['17 paneles Trina Solar 720W N-TOPCon N-Type', 'Inversor híbrido 10.2 kW MPPT', '2× Batería LiFePO4 48V 200Ah · 19,2 kWh', 'Estructura aluminio inclinada, cableado y protecciones', 'Instalación y puesta en marcha'],
     },
   ],
 }
