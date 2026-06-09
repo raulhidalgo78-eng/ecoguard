@@ -77,7 +77,7 @@ function Servicios() {
   const servicios = [
     {
       icon: Camera, color: 'bg-brand-green/10 text-brand-green',
-      image: '/images/camara-4g-solar.png',
+      image: '/images/camara-4g-solar-01.png',
       imagePosition: 'center bottom',
       title: 'Cámaras Solares con 4G e IA',
       description: 'Vigilancia 24/7 completamente autónoma. Nuestras cámaras funcionan con energía solar, transmiten por 4G y detectan personas, vehículos y animales con inteligencia artificial.',
