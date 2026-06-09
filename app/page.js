@@ -113,7 +113,7 @@ function Servicios() {
             <div key={s.title} className="card overflow-hidden !p-0">
               {s.image && (
                 <div className="relative w-full h-52 overflow-hidden">
-                  <Image src={s.image} alt={s.title} fill className="object-cover" />
+                  <Image src={s.image} alt={s.title} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                 </div>
               )}
@@ -218,13 +218,20 @@ function Cobertura() {
             </div>
             <a href="#contacto" className="btn-primary">Consulta tu zona <ChevronRight className="w-5 h-5" /></a>
           </div>
-          <div className="bg-brand-gray rounded-3xl p-8 flex flex-col items-center justify-center min-h-[350px] border-2 border-dashed border-gray-200 text-center">
-            <MapPin className="w-16 h-16 text-brand-green/30 mb-4" />
-            <p className="text-gray-400 font-medium">Mapa de cobertura</p>
-            <p className="text-gray-400 text-sm mt-1">Región de Valparaíso</p>
-            <div className="mt-6 bg-white rounded-2xl shadow-sm p-4 text-left w-full max-w-xs">
-              <div className="flex items-center gap-3 mb-3"><div className="w-3 h-3 bg-brand-green rounded-full" /><span className="text-sm font-medium text-gray-700">Zona de operación activa</span></div>
-              <div className="flex items-center gap-3"><div className="w-3 h-3 bg-brand-solar rounded-full" /><span className="text-sm font-medium text-gray-700">Consulta disponibilidad</span></div>
+          <div className="relative rounded-3xl overflow-hidden min-h-[350px] bg-brand-dark">
+            <Image src="/images/paisaje-rural.jpg" alt="Región de Valparaíso" fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover opacity-60" />
+            <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 p-8">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-3 h-3 bg-brand-solar rounded-full animate-pulse" />
+                <span className="text-white font-semibold text-sm">Zona de operación activa</span>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {['Valparaíso', 'Viña del Mar', 'Quillota', 'Los Andes', 'San Felipe', 'Casablanca'].map((c) => (
+                  <span key={c} className="bg-white/15 backdrop-blur text-white text-xs px-3 py-1 rounded-full border border-white/20">{c}</span>
+                ))}
+                <span className="bg-brand-solar/80 text-white text-xs px-3 py-1 rounded-full">y más...</span>
+              </div>
             </div>
           </div>
         </div>
@@ -255,7 +262,7 @@ function AppEnAccion() {
           {vistas.map((v) => (
             <div key={v.label} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
               <div className="relative w-full h-64">
-                <Image src={v.src} alt={v.label} fill className="object-cover object-top" />
+                <Image src={v.src} alt={v.label} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover object-top" />
               </div>
               <div className="p-5">
                 <div className="font-bold text-gray-900 mb-1">{v.label}</div>

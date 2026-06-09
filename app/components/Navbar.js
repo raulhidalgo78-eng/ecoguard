@@ -42,7 +42,12 @@ export default function Navbar() {
           ))}
           <a href="#contacto" className="btn-primary text-sm px-5 py-2.5">Cotiza gratis</a>
         </div>
-        <button className={`md:hidden p-2 rounded-lg ${scrolled ? 'text-gray-700' : 'text-white'}`} onClick={() => setOpen(!open)}>
+        <button
+          className={`md:hidden p-2 rounded-lg ${scrolled ? 'text-gray-700' : 'text-white'}`}
+          onClick={() => setOpen(!open)}
+          aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
+          aria-expanded={open}
+        >
           {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </nav>
