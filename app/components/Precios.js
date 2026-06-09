@@ -148,6 +148,11 @@ function PlanCard({ plan }) {
       <a href="#contacto" className={`${plan.ctaStyle} w-full justify-center`}>
         {plan.cta}
       </a>
+
+      {/* Financiamiento */}
+      <p className={`text-xs text-center mt-3 ${plan.featured ? 'text-white/40' : 'text-gray-400'}`}>
+        Consulta por financiamiento disponible
+      </p>
     </div>
   )
 }
