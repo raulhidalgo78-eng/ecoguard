@@ -94,7 +94,7 @@ function Servicios() {
     },
     {
       icon: Sun, color: 'bg-brand-solar/10 text-brand-solar-dark',
-      image: null,
+      image: '/images/paisaje-rural.jpg',
       title: 'Sistemas Fotovoltaicos Llave en Mano',
       description: 'Energía solar para tu propiedad rural sin depender de la red. Diseñamos, instalamos y ponemos en marcha tu sistema fotovoltaico completo con respaldo de batería.',
       features: ['Diseño personalizado a tu consumo', 'Paneles solares de alta eficiencia', 'Baterías de litio con respaldo', 'Instalación certificada', 'Puesta en marcha incluida', 'Asesoría y soporte post-venta'],
@@ -289,9 +289,9 @@ function Contacto() {
                 <div className="w-12 h-12 bg-brand-green/10 rounded-xl flex items-center justify-center group-hover:bg-brand-green/20 transition-colors"><Phone className="w-6 h-6 text-brand-green" /></div>
                 <div><div className="text-xs text-gray-500 mb-0.5">Llámanos o escríbenos</div><div className="font-bold text-gray-900">+56 9 7151 6101</div></div>
               </a>
-              <a href="mailto:contacto@ecoguard.cl" className="flex items-center gap-4 bg-white rounded-2xl p-5 hover:shadow-md transition-shadow group">
+              <a href="mailto:ventas@ecoguard.cl" className="flex items-center gap-4 bg-white rounded-2xl p-5 hover:shadow-md transition-shadow group">
                 <div className="w-12 h-12 bg-brand-green/10 rounded-xl flex items-center justify-center group-hover:bg-brand-green/20 transition-colors"><Mail className="w-6 h-6 text-brand-green" /></div>
-                <div><div className="text-xs text-gray-500 mb-0.5">Escríbenos al email</div><div className="font-bold text-gray-900">contacto@ecoguard.cl</div></div>
+                <div><div className="text-xs text-gray-500 mb-0.5">Escríbenos al email</div><div className="font-bold text-gray-900">ventas@ecoguard.cl</div></div>
               </a>
               <div className="flex items-center gap-4 bg-white rounded-2xl p-5">
                 <div className="w-12 h-12 bg-brand-green/10 rounded-xl flex items-center justify-center"><MapPin className="w-6 h-6 text-brand-green" /></div>
@@ -314,10 +314,7 @@ function Footer() {
     <footer className="bg-brand-dark text-white py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-2 font-bold text-xl">
-            <div className="w-8 h-8 bg-brand-green rounded-lg flex items-center justify-center"><Shield className="w-5 h-5 text-white" /></div>
-            Eco<span className="text-brand-solar">Guard</span>
-          </div>
+          <Image src="/images/logo-ecoguard-horizontal.svg" alt="EcoGuard" width={160} height={44} className="brightness-0 invert" unoptimized />
           <div className="text-white/50 text-sm text-center">Seguridad y energía solar autónoma para el campo chileno · Región de Valparaíso</div>
           <div className="text-white/50 text-sm">© {new Date().getFullYear()} EcoGuard</div>
         </div>
