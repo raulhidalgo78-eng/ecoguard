@@ -7,7 +7,7 @@ const camaras = {
   icon: Camera,
   color: 'bg-brand-green/10 text-brand-green',
   image: '/images/camara-4g-solar-01.png',
-  imagePosition: 'center bottom',
+  imagePosition: 'center top',
   title: 'Cámaras Solares con 4G e IA',
   description: 'Vigilancia 24/7 completamente autónoma. Nuestras cámaras funcionan con energía solar, transmiten por 4G y detectan personas, vehículos y animales con inteligencia artificial.',
   features: ['Detección inteligente con IA', 'Transmisión 4G sin cable ni WiFi', 'Panel solar integrado + batería', 'Alertas en tiempo real al celular', 'Visión nocturna avanzada', 'Instalación profesional incluida'],
