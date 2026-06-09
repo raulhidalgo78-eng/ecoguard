@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Navbar from './components/Navbar'
 import ContactForm from './components/ContactForm'
-import Precios from './components/Precios'
+import ServiciosPrecios from './components/ServiciosPrecios'
 import { Camera, Sun, Shield, Wifi, Zap, MapPin, Phone, Mail, ChevronRight, CheckCircle, Eye, Brain, Battery, Wrench, PhoneCall, Star, Smartphone } from 'lucide-react'
 
 function Hero() {
@@ -73,59 +73,6 @@ function Hero() {
   )
 }
 
-function Servicios() {
-  const servicios = [
-    {
-      icon: Camera, color: 'bg-brand-green/10 text-brand-green',
-      image: '/images/camara-4g-solar-01.png',
-      imagePosition: 'center bottom',
-      title: 'Cámaras Solares con 4G e IA',
-      description: 'Vigilancia 24/7 completamente autónoma. Nuestras cámaras funcionan con energía solar, transmiten por 4G y detectan personas, vehículos y animales con inteligencia artificial.',
-      features: ['Detección inteligente con IA', 'Transmisión 4G sin cable ni WiFi', 'Panel solar integrado + batería', 'Alertas en tiempo real al celular', 'Visión nocturna avanzada', 'Instalación profesional incluida'],
-    },
-    {
-      icon: Sun, color: 'bg-brand-solar/10 text-brand-solar-dark',
-      image: '/images/instalacion-paneles.png',
-      title: 'Sistemas Fotovoltaicos Llave en Mano',
-      description: 'Energía solar para tu propiedad rural sin depender de la red. Diseñamos, instalamos y ponemos en marcha tu sistema fotovoltaico completo con respaldo de batería.',
-      features: ['Diseño personalizado a tu consumo', 'Paneles solares de alta eficiencia', 'Baterías de litio con respaldo', 'Instalación certificada', 'Puesta en marcha incluida', 'Asesoría y soporte post-venta'],
-    },
-  ]
-  return (
-    <section id="servicios" className="py-24 bg-brand-gray">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 bg-brand-green/10 text-brand-green rounded-full px-4 py-1.5 text-sm font-medium mb-4">Nuestros servicios</div>
-          <h2 className="section-title mb-4">Dos soluciones. Un solo proveedor.</h2>
-          <p className="section-subtitle max-w-2xl mx-auto">Integramos seguridad y energía en una propuesta completa para el campo chileno, sin depender de infraestructura existente.</p>
-        </div>
-        <div className="grid md:grid-cols-2 gap-8">
-          {servicios.map((s) => (
-            <div key={s.title} className="card overflow-hidden !p-0">
-              {s.image && (
-                <div className="relative w-full h-52 overflow-hidden">
-                  <Image src={s.image} alt={s.title} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" style={{ objectPosition: s.imagePosition || 'center' }} />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                </div>
-              )}
-              <div className="p-8">
-              <div className={`w-14 h-14 ${s.color} rounded-2xl flex items-center justify-center mb-6`}><s.icon className="w-7 h-7" /></div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-3">{s.title}</h3>
-              <p className="text-gray-600 leading-relaxed mb-6">{s.description}</p>
-              <ul className="space-y-3">
-                {s.features.map((f) => (
-                  <li key={f} className="flex items-center gap-3 text-gray-700"><CheckCircle className="w-5 h-5 text-brand-green flex-shrink-0" />{f}</li>
-                ))}
-              </ul>
-              <div className="mt-8"><a href="#contacto" className="btn-primary w-full justify-center">Solicitar cotización</a></div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
 
 function ComoFunciona() {
   const pasos = [
@@ -327,11 +274,10 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
-        <Servicios />
+        <ServiciosPrecios />
         <ComoFunciona />
         <PorQue />
         <AppEnAccion />
-        <Precios />
         <Cobertura />
         <Contacto />
       </main>
