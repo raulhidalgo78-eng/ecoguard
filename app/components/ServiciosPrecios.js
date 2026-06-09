@@ -7,7 +7,7 @@ const camaras = {
   icon: Camera,
   color: 'bg-brand-green/10 text-brand-green',
   image: '/images/camara-4g-solar-01.png',
-  imagePosition: 'center top',
+  imagePosition: 'center 40%',
   title: 'Cámaras Solares con 4G e IA',
   description: 'Vigilancia 24/7 completamente autónoma. Nuestras cámaras funcionan con energía solar, transmiten por 4G y detectan personas, vehículos y animales con inteligencia artificial.',
   features: ['Detección inteligente con IA', 'Transmisión 4G sin cable ni WiFi', 'Panel solar integrado + batería', 'Alertas en tiempo real al celular', 'Visión nocturna avanzada', 'Instalación profesional incluida'],
@@ -121,7 +121,7 @@ function ServicioBloque({ servicio }) {
   return (
     <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
       {/* Imagen */}
-      <div className="relative w-full h-56 overflow-hidden">
+      <div className="relative w-full aspect-[4/3] sm:aspect-[16/7] overflow-hidden">
         <Image
           src={servicio.image}
           alt={servicio.title}
