@@ -10,7 +10,7 @@ const planesCamaras = [
     name: 'Plan Estándar',
     tag: 'Sobre estructura existente',
     desc: 'Instalación de la cámara sobre muro, fachada, poste o construcción ya disponible en tu propiedad.',
-    precio: '$500.000',
+    precio: '$490.000',
     nota: 'IVA incluido · instalada',
     items: [
       'Cámara Dahua Solar PTZ 4G doble lente',
@@ -29,7 +29,7 @@ const planesCamaras = [
     name: 'Plan Integral',
     tag: 'Con poste 75×75',
     desc: 'Instalación completa con poste de acero 75×75 y base de hormigón. Para cuando no hay dónde montar o necesitas más altura.',
-    precio: '$700.000',
+    precio: '$690.000',
     nota: 'IVA incluido · instalada',
     items: [
       'Cámara Dahua Solar PTZ 4G doble lente',
