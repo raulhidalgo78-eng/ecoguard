@@ -37,7 +37,7 @@ function Hero() {
           <div className="relative w-full max-w-md">
             {/* Foto real de la cámara instalada */}
             <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-[4/3]">
-              <Image src="/images/camara-instalada.jpg" alt="Cámara solar EcoGuard instalada en campo" fill sizes="50vw" className="object-cover" priority />
+              <Image src="/images/ecoguard01.jpg" alt="Cámara solar EcoGuard instalada en campo" fill sizes="50vw" className="object-cover" priority />
               <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/60 via-transparent to-transparent" />
               {/* Badge "en vivo" */}
               <div className="absolute top-4 left-4 flex items-center gap-2 bg-black/50 backdrop-blur rounded-full px-3 py-1.5">
