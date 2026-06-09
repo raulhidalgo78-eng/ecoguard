@@ -77,14 +77,14 @@ function Servicios() {
   const servicios = [
     {
       icon: Camera, color: 'bg-brand-green/10 text-brand-green',
-      image: '/images/camara-instalada.jpg',
+      image: '/images/camara-4g-solar.png',
       title: 'Cámaras Solares con 4G e IA',
       description: 'Vigilancia 24/7 completamente autónoma. Nuestras cámaras funcionan con energía solar, transmiten por 4G y detectan personas, vehículos y animales con inteligencia artificial.',
       features: ['Detección inteligente con IA', 'Transmisión 4G sin cable ni WiFi', 'Panel solar integrado + batería', 'Alertas en tiempo real al celular', 'Visión nocturna avanzada', 'Instalación profesional incluida'],
     },
     {
       icon: Sun, color: 'bg-brand-solar/10 text-brand-solar-dark',
-      image: '/images/paisaje-rural.jpg',
+      image: '/images/instalacion-paneles.png',
       title: 'Sistemas Fotovoltaicos Llave en Mano',
       description: 'Energía solar para tu propiedad rural sin depender de la red. Diseñamos, instalamos y ponemos en marcha tu sistema fotovoltaico completo con respaldo de batería.',
       features: ['Diseño personalizado a tu consumo', 'Paneles solares de alta eficiencia', 'Baterías de litio con respaldo', 'Instalación certificada', 'Puesta en marcha incluida', 'Asesoría y soporte post-venta'],
