@@ -78,6 +78,7 @@ function Servicios() {
     {
       icon: Camera, color: 'bg-brand-green/10 text-brand-green',
       image: '/images/camara-4g-solar.png',
+      imagePosition: 'center bottom',
       title: 'Cámaras Solares con 4G e IA',
       description: 'Vigilancia 24/7 completamente autónoma. Nuestras cámaras funcionan con energía solar, transmiten por 4G y detectan personas, vehículos y animales con inteligencia artificial.',
       features: ['Detección inteligente con IA', 'Transmisión 4G sin cable ni WiFi', 'Panel solar integrado + batería', 'Alertas en tiempo real al celular', 'Visión nocturna avanzada', 'Instalación profesional incluida'],
@@ -103,7 +104,7 @@ function Servicios() {
             <div key={s.title} className="card overflow-hidden !p-0">
               {s.image && (
                 <div className="relative w-full h-52 overflow-hidden">
-                  <Image src={s.image} alt={s.title} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
+                  <Image src={s.image} alt={s.title} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" style={{ objectPosition: s.imagePosition || 'center' }} />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                 </div>
               )}
