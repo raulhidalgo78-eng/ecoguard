@@ -51,7 +51,7 @@ const planesSolar = [
     name: 'Solar Hogar',
     tag: '4.3 kW · 4.8 kWh',
     desc: 'Solución de entrada para hogares y parcelas de consumo moderado, con respaldo de batería.',
-    precio: '$3.482.500',
+    precio: '$3.490.000',
     nota: 'IVA incluido · instalado',
     items: [
       '6 paneles Trina 720W N-TOPCon',
@@ -70,7 +70,7 @@ const planesSolar = [
     name: 'Solar Hogar+',
     tag: '8 kW · 9.6 kWh',
     desc: 'El equilibrio ideal entre potencia y autonomía. Cubre electrodomésticos exigentes con respaldo robusto.',
-    precio: '$5.551.600',
+    precio: '$5.490.000',
     nota: 'IVA incluido · instalado',
     items: [
       '11 paneles Trina 720W N-TOPCon',
@@ -89,7 +89,7 @@ const planesSolar = [
     name: 'Solar Pro',
     tag: '12 kW · 19.2 kWh',
     desc: 'Máxima potencia y almacenamiento para grandes propiedades o uso productivo y agrícola.',
-    precio: '$9.405.800',
+    precio: '$9.490.000',
     nota: 'IVA incluido · instalado',
     items: [
       '17 paneles Trina 720W N-TOPCon',
