@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Menu, X, Shield } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
+import Image from 'next/image'
 
 const navLinks = [
   { href: '#servicios', label: 'Servicios' },
@@ -23,13 +24,15 @@ export default function Navbar() {
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-sm' : 'bg-transparent'}`}>
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-        <a href="#" className="flex items-center gap-2 font-bold text-xl">
-          <div className="w-8 h-8 bg-brand-green rounded-lg flex items-center justify-center">
-            <Shield className="w-5 h-5 text-white" />
-          </div>
-          <span className={scrolled ? 'text-gray-900' : 'text-white'}>
-            Eco<span className="text-brand-solar">Guard</span>
-          </span>
+        <a href="#" className="flex items-center">
+          <Image
+            src="/images/logo-ecoguard-horizontal.svg"
+            alt="EcoGuard"
+            width={180}
+            height={50}
+            priority
+            className={scrolled ? 'brightness-100' : 'brightness-0 invert'}
+          />
         </a>
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (

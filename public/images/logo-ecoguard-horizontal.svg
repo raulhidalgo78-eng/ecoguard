@@ -1,0 +1,31 @@
+<svg width="500" height="140" viewBox="0 0 500 140" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <clipPath id="sc">
+    <path d="M70 8 L114 26 L114 80 Q114 114 70 126 Q26 114 26 80 L26 26 Z"/>
+  </clipPath>
+</defs>
+<path d="M70 8 L114 26 L114 80 Q114 114 70 126 Q26 114 26 80 L26 26 Z" fill="#1a7a4a"/>
+<!-- Sol -->
+<circle cx="70" cy="48" r="18" fill="#f59e0b" clip-path="url(#sc)"/>
+<line x1="70" y1="22" x2="70" y2="16" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/>
+<line x1="70" y1="74" x2="70" y2="80" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/>
+<line x1="44" y1="48" x2="38" y2="48" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/>
+<line x1="96" y1="48" x2="102" y2="48" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/>
+<line x1="51" y1="29" x2="46" y2="24" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="89" y1="67" x2="94" y2="72" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="89" y1="29" x2="94" y2="24" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="51" y1="67" x2="46" y2="72" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round"/>
+<circle cx="70" cy="48" r="7" fill="#fff" clip-path="url(#sc)"/>
+<!-- Cordillera -->
+<path d="M26 104 L36 84 L43 90 L52 74 L58 80 L70 64 L82 80 L88 74 L97 90 L104 84 L114 104 Z" fill="#0f3520" clip-path="url(#sc)"/>
+<path d="M26 114 L38 92 L45 98 L55 78 L61 86 L70 66 L79 86 L85 78 L95 98 L102 92 L114 114 Z" fill="#164d2a" clip-path="url(#sc)"/>
+<path d="M65 69 L70 66 L75 69 L73 73 L70 68 L67 73 Z" fill="#e8f4ec" clip-path="url(#sc)"/>
+<!-- Mar -->
+<path d="M26 106 Q44 101 58 106 Q70 111 84 105 Q98 100 114 106 L114 118 Q26 122 26 118 Z" fill="#1a6b8a" opacity="0.8" clip-path="url(#sc)"/>
+<!-- Río -->
+<path d="M68 82 C66 87 63 91 64 96 C65 100 67 103 66 108 L74 109 C73 104 75 101 74 97 C73 92 76 88 74 83 Z" fill="#5ab8d4" opacity="0.75" clip-path="url(#sc)"/>
+<path d="M70 84 C69 89 67 93 68 98 C69 102 70 105 70 109" stroke="#a8dff0" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.8" clip-path="url(#sc)"/>
+<!-- Texto -->
+<text x="130" y="82" font-family="Arial, sans-serif" font-size="58" font-weight="700" fill="#0d1f13">Eco<tspan fill="#f59e0b">Guard</tspan></text>
+<text x="132" y="106" font-family="Arial, sans-serif" font-size="13" fill="#6b7280" letter-spacing="1">Seguridad · Energía Solar · Valparaíso</text>
+</svg>
