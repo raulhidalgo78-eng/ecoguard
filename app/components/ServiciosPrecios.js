@@ -19,7 +19,8 @@ const camaras = {
       tag: 'Sobre estructura existente',
       desc: 'Instalación sobre muro, fachada, poste o construcción ya disponible en tu propiedad.',
       precio: '$490.000',
-      nota: 'IVA incluido · instalada',
+      nota: 'Precio transferencia · IVA incluido · instalada',
+      mpLink: 'https://mpago.la/1tVYaXP',
       items: ['Cámara Dahua Solar PTZ 4G doble lente', 'Tarjeta microSD 256 GB', 'SIM de datos activada', 'Instalación profesional', 'Configuración y puesta en marcha'],
     },
     {
@@ -29,7 +30,8 @@ const camaras = {
       tag: 'Con poste 75×75',
       desc: 'Instalación completa con poste de acero 75×75 y base de hormigón.',
       precio: '$690.000',
-      nota: 'IVA incluido · instalada',
+      nota: 'Precio transferencia · IVA incluido · instalada',
+      mpLink: 'https://mpago.la/1MgposN',
       items: ['Cámara Dahua Solar PTZ 4G doble lente', 'Tarjeta microSD 256 GB', 'SIM de datos activada', 'Poste de acero 75×75 con fundación', 'Instalación profesional + puesta en marcha'],
     },
   ],
@@ -51,7 +53,8 @@ const solar = {
       tag: '4.3 kW · 4.8 kWh',
       desc: 'Para hogares y parcelas hasta ~150 kWh/mes. Consumo moderado sin depender de la red.',
       precio: '$3.490.000',
-      nota: 'IVA incluido · instalado',
+      nota: 'Precio transferencia · IVA incluido · instalado',
+      mpLink: 'https://mpago.la/2vPPdij',
       items: ['6 paneles Trina Solar 720W N-TOPCon N-Type', 'Inversor híbrido', 'Batería LiFePO4 48V 100Ah · 4,8 kWh', 'Estructura aluminio, cableado y protecciones', 'Instalación y puesta en marcha'],
     },
     {
@@ -61,7 +64,8 @@ const solar = {
       tag: '8 kW · 9.6 kWh',
       desc: 'Para hogares de 150 a 300 kWh/mes. El equilibrio ideal entre potencia y autonomía.',
       precio: '$5.490.000',
-      nota: 'IVA incluido · instalado',
+      nota: 'Precio transferencia · IVA incluido · instalado',
+      mpLink: 'https://mpago.la/2bLL29f',
       items: ['11 paneles Trina Solar 720W N-TOPCon N-Type', 'Inversor híbrido 10.2 kW MPPT', 'Batería LiFePO4 48V 200Ah · 9,6 kWh', 'Estructura aluminio, cableado y protecciones', 'Instalación y puesta en marcha'],
     },
     {
@@ -71,7 +75,8 @@ const solar = {
       tag: '12 kW · 19.2 kWh',
       desc: 'Para hogares sobre 300 kWh/mes. Máxima potencia para alto consumo o uso productivo.',
       precio: '$9.490.000',
-      nota: 'IVA incluido · instalado',
+      nota: 'Precio transferencia · IVA incluido · instalado',
+      mpLink: 'https://mpago.la/1FWedZr',
       items: ['17 paneles Trina Solar 720W N-TOPCon N-Type', 'Inversor híbrido 10.2 kW MPPT', '2× Batería LiFePO4 48V 200Ah · 19,2 kWh', 'Estructura aluminio inclinada, cableado y protecciones', 'Instalación y puesta en marcha'],
     },
   ],
@@ -107,9 +112,27 @@ function PlanCard({ plan, accentColor }) {
       }`}>
         Solicitar este plan
       </a>
-      <p className={`text-xs text-center mt-2 ${plan.featured ? 'text-white/30' : 'text-gray-400'}`}>
-        Consulta por financiamiento disponible
-      </p>
+      {plan.mpLink ? (
+        <a
+          href={plan.mpLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`inline-flex items-center justify-center gap-2 font-semibold px-4 py-2.5 rounded-xl transition-all duration-200 text-sm w-full mt-2 border ${
+            plan.featured
+              ? 'border-white/20 text-white/70 hover:bg-white/10'
+              : 'border-[#009EE3]/40 text-[#009EE3] hover:bg-[#009EE3]/5'
+          }`}
+        >
+          <svg viewBox="0 0 24 24" className="w-4 h-4 flex-shrink-0" fill="currentColor">
+            <path d="M19.59 7.13C19.02 4.6 17.1 3 14.18 3H7.5C6.67 3 6 3.67 6 4.5v.09L4.27 16.5H7.5l.9-5.7h2.15c3.9 0 6.44-1.85 7.04-4.67zM9.2 9.05l.52-3.3h2.52c1.66 0 2.53.74 2.28 2.2-.22 1.3-1.35 1.97-3.1 1.97H9.2v-.87zM19.04 10.63c-.66 3.07-3.22 5.04-7.1 5.04H9.5l-.56 3.56H5.78L6 17.5H3l-.05.33c-.11.72.4 1.17.98 1.17H7.5l.94-5.96h2.5c5.13 0 8.22-2.44 9.03-6.41z"/>
+          </svg>
+          Pagar con Mercado Pago
+        </a>
+      ) : (
+        <p className={`text-xs text-center mt-2 ${plan.featured ? 'text-white/30' : 'text-gray-400'}`}>
+          4% dcto. pagando con transferencia
+        </p>
+      )}
     </div>
   )
 }
