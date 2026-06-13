@@ -18,4 +18,5 @@
   .section-title { @apply text-3xl md:text-4xl font-bold text-gray-900 leading-tight; }
   .section-subtitle { @apply text-lg text-gray-600 leading-relaxed; }
   .card { @apply bg-white rounded-2xl shadow-sm border border-gray-100 p-8 hover:shadow-md transition-shadow duration-200; }
+  .input-admin { @apply border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-green; }
 }
