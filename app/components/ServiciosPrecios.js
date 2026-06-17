@@ -19,8 +19,9 @@ const camaras = {
       tag: 'Sobre estructura existente',
       desc: 'Instalación sobre muro, fachada, poste o construcción ya disponible en tu propiedad.',
       precio: '$490.000',
+      mpPrecio: '$499.000',
       nota: 'Precio transferencia · IVA incluido · instalada',
-      mpLink: 'https://mpago.la/1tVYaXP', // MP: $499.000
+      mpLink: 'https://mpago.la/1tVYaXP',
       items: ['Cámara Dahua Solar PTZ 4G doble lente', 'Tarjeta microSD 256 GB', 'SIM de datos activada', 'Instalación profesional', 'Configuración y puesta en marcha'],
     },
     {
@@ -30,6 +31,7 @@ const camaras = {
       tag: 'Con poste 75×75',
       desc: 'Instalación completa con poste de acero 75×75 y base de hormigón.',
       precio: '$690.000',
+      mpPrecio: '$699.000',
       nota: 'Precio transferencia · IVA incluido · instalada',
       mpLink: 'https://mpago.la/1MgposN',
       items: ['Cámara Dahua Solar PTZ 4G doble lente', 'Tarjeta microSD 256 GB', 'SIM de datos activada', 'Poste de acero 75×75 con fundación', 'Instalación profesional + puesta en marcha'],
@@ -53,6 +55,7 @@ const solar = {
       tag: '4.3 kW · 4.8 kWh',
       desc: 'Para hogares y parcelas hasta ~150 kWh/mes. Consumo moderado sin depender de la red.',
       precio: '$3.490.000',
+      mpPrecio: '$3.590.000',
       nota: 'Precio transferencia · IVA incluido · instalado',
       mpLink: 'https://mpago.la/2vPPdij',
       items: ['6 paneles Trina Solar 720W N-TOPCon N-Type', 'Inversor híbrido', 'Batería LiFePO4 48V 100Ah · 4,8 kWh', 'Estructura aluminio, cableado y protecciones', 'Instalación y puesta en marcha'],
@@ -64,6 +67,7 @@ const solar = {
       tag: '8 kW · 9.6 kWh',
       desc: 'Para hogares de 150 a 300 kWh/mes. El equilibrio ideal entre potencia y autonomía.',
       precio: '$5.490.000',
+      mpPrecio: '$5.590.000',
       nota: 'Precio transferencia · IVA incluido · instalado',
       mpLink: 'https://mpago.la/2bLL29f',
       items: ['11 paneles Trina Solar 720W N-TOPCon N-Type', 'Inversor híbrido 10.2 kW MPPT', 'Batería LiFePO4 48V 200Ah · 9,6 kWh', 'Estructura aluminio, cableado y protecciones', 'Instalación y puesta en marcha'],
@@ -75,6 +79,7 @@ const solar = {
       tag: '12 kW · 19.2 kWh',
       desc: 'Para hogares sobre 300 kWh/mes. Máxima potencia para alto consumo o uso productivo.',
       precio: '$9.490.000',
+      mpPrecio: '$9.690.000',
       nota: 'Precio transferencia · IVA incluido · instalado',
       mpLink: 'https://mpago.la/1FWedZr',
       items: ['17 paneles Trina Solar 720W N-TOPCon N-Type', 'Inversor híbrido 10.2 kW MPPT', '2× Batería LiFePO4 48V 200Ah · 19,2 kWh', 'Estructura aluminio inclinada, cableado y protecciones', 'Instalación y puesta en marcha'],
@@ -95,10 +100,17 @@ function PlanCard({ plan, accentColor }) {
       <h4 className={`text-lg font-bold mb-0.5 ${plan.featured ? 'text-white' : 'text-gray-900'}`}>{plan.name}</h4>
       <p className={`text-xs font-mono uppercase tracking-wider mb-3 ${plan.featured ? 'text-brand-solar' : 'text-gray-400'}`}>{plan.tag}</p>
       <p className={`text-xs leading-relaxed mb-4 ${plan.featured ? 'text-white/60' : 'text-gray-500'}`}>{plan.desc}</p>
-      <div className="mb-0.5">
+      <div className="mb-1">
+        <p className={`text-[10px] font-semibold uppercase tracking-wider mb-0.5 ${plan.featured ? 'text-white/50' : 'text-gray-400'}`}>Precio transferencia</p>
         <span className={`text-3xl font-black ${plan.featured ? 'text-white' : 'text-gray-900'}`}>{plan.precio}</span>
       </div>
-      <p className={`text-xs font-mono uppercase tracking-wider mb-4 ${plan.featured ? 'text-white/40' : 'text-gray-400'}`}>{plan.nota}</p>
+      <p className={`text-xs font-mono uppercase tracking-wider mb-3 ${plan.featured ? 'text-white/40' : 'text-gray-400'}`}>{plan.nota}</p>
+      {plan.mpPrecio && (
+        <div className={`rounded-lg px-3 py-2 mb-4 ${plan.featured ? 'bg-white/5' : 'bg-gray-50'}`}>
+          <p className={`text-[10px] font-semibold uppercase tracking-wider mb-0.5 ${plan.featured ? 'text-white/50' : 'text-gray-400'}`}>Precio con tarjeta débito y crédito</p>
+          <span className={`text-xl font-bold ${plan.featured ? 'text-white/80' : 'text-gray-700'}`}>{plan.mpPrecio}</span>
+        </div>
+      )}
       <ul className="space-y-2 flex-1 mb-5">
         {plan.items.map((item) => (
           <li key={item} className={`flex items-start gap-2 text-xs ${plan.featured ? 'text-white/75' : 'text-gray-600'}`}>
