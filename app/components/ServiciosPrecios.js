@@ -20,7 +20,7 @@ const camaras = {
       desc: 'Instalación sobre muro, fachada, poste o construcción ya disponible en tu propiedad.',
       precio: '$490.000',
       nota: 'Precio transferencia · IVA incluido · instalada',
-      mpLink: 'https://mpago.la/1tVYaXP',
+      mpLink: 'https://mpago.la/1tVYaXP', // MP: $499.000
       items: ['Cámara Dahua Solar PTZ 4G doble lente', 'Tarjeta microSD 256 GB', 'SIM de datos activada', 'Instalación profesional', 'Configuración y puesta en marcha'],
     },
     {
@@ -112,7 +112,7 @@ function PlanCard({ plan, accentColor }) {
       }`}>
         Solicitar este plan
       </a>
-      {plan.mpLink ? (
+      {plan.mpLink && (
         <a
           href={plan.mpLink}
           target="_blank"
@@ -128,11 +128,10 @@ function PlanCard({ plan, accentColor }) {
           </svg>
           Pagar con Mercado Pago
         </a>
-      ) : (
-        <p className={`text-xs text-center mt-2 ${plan.featured ? 'text-white/30' : 'text-gray-400'}`}>
-          4% dcto. pagando con transferencia
-        </p>
       )}
+      <p className={`text-xs text-center mt-2 ${plan.featured ? 'text-white/40' : 'text-gray-400'}`}>
+        4% dcto. pagando con transferencia o depósito
+      </p>
     </div>
   )
 }
