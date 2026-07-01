@@ -39,94 +39,49 @@ const camaras = {
   ],
 }
 
-const solar = {
-  icon: Sun,
-  color: 'bg-brand-solar/10 text-brand-solar-dark',
-  image: '/images/instalacion-paneles.png',
-  imagePosition: 'center',
-  title: 'Sistemas Fotovoltaicos Llave en Mano',
-  description: 'Energía solar para tu propiedad rural sin depender de la red. Diseñamos, instalamos y ponemos en marcha tu sistema fotovoltaico completo con respaldo de batería.',
-  features: ['Diseño personalizado a tu consumo', 'Paneles Trina Solar N-TOPCon N-Type 720W', 'Baterías LiFePO4 ≥6.000 ciclos · 10 años', 'Instalación certificada', 'Puesta en marcha incluida', 'Asesoría y soporte post-venta'],
-  planes: [
-    {
-      featured: false,
-      badge: 'Entrada',
-      name: 'Solar Hogar',
-      tag: '4.3 kW · 4.8 kWh',
-      desc: 'Para hogares y parcelas hasta ~150 kWh/mes. Consumo moderado sin depender de la red.',
-      precio: '$3.590.000',
-      nota: 'IVA incluido · instalado',
-      ahorro: '$100.000',
-      mpLink: 'https://mpago.la/2vPPdij',
-      items: ['6 paneles Trina Solar 720W N-TOPCon N-Type', 'Inversor híbrido', 'Batería LiFePO4 48V 100Ah · 4,8 kWh', 'Estructura aluminio, cableado y protecciones', 'Instalación y puesta en marcha'],
-    },
-    {
-      featured: true,
-      badge: '⭐ Recomendado',
-      name: 'Solar Hogar+',
-      tag: '8 kW · 9.6 kWh',
-      desc: 'Para hogares de 150 a 300 kWh/mes. El equilibrio ideal entre potencia y autonomía.',
-      precio: '$5.590.000',
-      nota: 'IVA incluido · instalado',
-      ahorro: '$100.000',
-      mpLink: 'https://mpago.la/2bLL29f',
-      items: ['11 paneles Trina Solar 720W N-TOPCon N-Type', 'Inversor híbrido 10.2 kW MPPT', 'Batería LiFePO4 48V 200Ah · 9,6 kWh', 'Estructura aluminio, cableado y protecciones', 'Instalación y puesta en marcha'],
-    },
-    {
-      featured: false,
-      badge: 'Alto consumo',
-      name: 'Solar Pro',
-      tag: '12 kW · 19.2 kWh',
-      desc: 'Para hogares sobre 300 kWh/mes. Máxima potencia para alto consumo o uso productivo.',
-      precio: '$9.690.000',
-      nota: 'IVA incluido · instalado',
-      ahorro: '$200.000',
-      mpLink: 'https://mpago.la/1FWedZr',
-      items: ['17 paneles Trina Solar 720W N-TOPCon N-Type', 'Inversor híbrido 10.2 kW MPPT', '2× Batería LiFePO4 48V 200Ah · 19,2 kWh', 'Estructura aluminio inclinada, cableado y protecciones', 'Instalación y puesta en marcha'],
-    },
-  ],
-}
-
 const alpsolar = {
   icon: Sun,
   color: 'bg-brand-solar/10 text-brand-solar-dark',
   image: '/images/instalacion-paneles.png',
   imagePosition: 'center',
-  title: 'Sistemas AlpSolar · Acceso y Potencia',
-  description: 'La alternativa de alta eficiencia a mejor precio. Inversor PULSE S4 con 12 kW de entrada fotovoltaica, WiFi integrado, compatible con generador y conexión a red eléctrica. Llave en mano.',
+  title: 'Energía Solar · Packs Instalados AlpSolar',
+  description: '¿Estás construyendo una cabaña o quieres dejar de pagar una cuenta elevada de luz? Aprovecha nuestros packs instalados llave en mano. Inversor híbrido PULSE S4 con 12 kW de entrada FV, WiFi integrado, compatible con generador y conexión a red. Funcionando desde el primer día.',
   features: ['Inversor 12 kW doble canal MPPT', 'WiFi y Bluetooth + app móvil', 'Compatible con generador diésel/gasolina', 'Inyección a red · reduce tu cuenta', 'Paneles 610W N-TYPE alta eficiencia', 'IP66 · apto intemperie'],
   planes: [
     {
       featured: false,
-      badge: 'Inicio',
-      name: 'AlpSolar Inicio',
+      badge: 'Pack Inicial',
+      name: 'Pack Inicial',
       tag: '1.83 kW · 5.12 kWh',
       desc: 'Para cabañas, casas de campo y consumo básico. Ideal para partir con energía solar sin gran inversión.',
-      precio: '$2.240.000',
+      precio: '$2.290.000',
       nota: 'IVA incluido · instalado',
-      ahorro: '$224.000',
+      ahorro: '$50.000',
+      mpLink: 'https://mpago.la/1zz9c26',
       items: ['3 paneles AlpSolar 610W N-TYPE', 'Inversor híbrido PULSE S4 12 kW', 'Batería LiFePO4 5.12 kWh LIVO-Y', 'Cableado, cajas de protección y soporte', 'Instalación y puesta en marcha'],
     },
     {
       featured: false,
-      badge: 'Intermedia',
-      name: 'AlpSolar Intermedia',
+      badge: 'Pack Intermedio',
+      name: 'Pack Intermedio',
       tag: '3.66 kW · 10.24 kWh',
       desc: 'Para hogares con consumo moderado. Autonomía real con doble batería y mayor generación diaria.',
-      precio: '$3.720.000',
+      precio: '$3.790.000',
       nota: 'IVA incluido · instalado',
-      ahorro: '$372.000',
+      ahorro: '$100.000',
+      mpLink: 'https://mpago.la/2UUkNAQ',
       items: ['6 paneles AlpSolar 610W N-TYPE', 'Inversor híbrido PULSE S4 12 kW', '2× Batería LiFePO4 5.12 kWh LIVO-Y', 'Cableado, cajas de protección y soporte', 'Instalación y puesta en marcha'],
     },
     {
       featured: true,
       badge: '⭐ Recomendado',
-      name: 'AlpSolar Full',
+      name: 'Pack Full',
       tag: '6.1 kW · 15.36 kWh',
       desc: 'Para hogares de consumo alto o uso productivo. Máxima autonomía con 10 paneles y triple batería.',
-      precio: '$5.390.000',
+      precio: '$5.590.000',
       nota: 'IVA incluido · instalado',
-      ahorro: '$539.000',
+      ahorro: '$150.000',
+      mpLink: 'https://mpago.la/2XYXGMC',
       items: ['10 paneles AlpSolar 610W N-TYPE', 'Inversor híbrido PULSE S4 12 kW', '3× Batería LiFePO4 5.12 kWh LIVO-Y', 'Cableado, cajas de protección y soporte', 'Instalación y puesta en marcha'],
     },
   ],
@@ -241,14 +196,13 @@ export default function ServiciosPrecios() {
           <div className="inline-flex items-center gap-2 bg-brand-green/10 text-brand-green rounded-full px-4 py-1.5 text-sm font-medium mb-4">
             Servicios y Precios
           </div>
-          <h2 className="section-title mb-4">Dos soluciones. Un solo proveedor.</h2>
+          <h2 className="section-title mb-4">Seguridad y energía solar. Llave en mano.</h2>
           <p className="section-subtitle max-w-2xl mx-auto">
-            Integramos seguridad y energía en una propuesta completa para el campo chileno, sin depender de infraestructura existente.
+            Cámaras solares con 4G e IA y sistemas fotovoltaicos instalados para el campo chileno, sin depender de infraestructura existente.
           </p>
         </div>
         <div className="flex flex-col gap-10">
           <ServicioBloque servicio={camaras} />
-          <ServicioBloque servicio={solar} />
           <ServicioBloque servicio={alpsolar} />
         </div>
         <p className="text-center text-sm text-gray-400 mt-6">
