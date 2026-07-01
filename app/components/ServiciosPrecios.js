@@ -87,6 +87,51 @@ const solar = {
   ],
 }
 
+const alpsolar = {
+  icon: Sun,
+  color: 'bg-brand-solar/10 text-brand-solar-dark',
+  image: '/images/instalacion-paneles.png',
+  imagePosition: 'center',
+  title: 'Sistemas AlpSolar · Acceso y Potencia',
+  description: 'La alternativa de alta eficiencia a mejor precio. Inversor PULSE S4 con 12 kW de entrada fotovoltaica, WiFi integrado, compatible con generador y conexión a red eléctrica. Llave en mano.',
+  features: ['Inversor 12 kW doble canal MPPT', 'WiFi y Bluetooth + app móvil', 'Compatible con generador diésel/gasolina', 'Inyección a red · reduce tu cuenta', 'Paneles 610W N-TYPE alta eficiencia', 'IP66 · apto intemperie'],
+  planes: [
+    {
+      featured: false,
+      badge: 'Inicio',
+      name: 'AlpSolar Inicio',
+      tag: '1.83 kW · 5.12 kWh',
+      desc: 'Para cabañas, casas de campo y consumo básico. Ideal para partir con energía solar sin gran inversión.',
+      precio: '$2.240.000',
+      nota: 'IVA incluido · instalado',
+      ahorro: '$224.000',
+      items: ['3 paneles AlpSolar 610W N-TYPE', 'Inversor híbrido PULSE S4 12 kW', 'Batería LiFePO4 5.12 kWh LIVO-Y', 'Cableado, cajas de protección y soporte', 'Instalación y puesta en marcha'],
+    },
+    {
+      featured: false,
+      badge: 'Intermedia',
+      name: 'AlpSolar Intermedia',
+      tag: '3.66 kW · 10.24 kWh',
+      desc: 'Para hogares con consumo moderado. Autonomía real con doble batería y mayor generación diaria.',
+      precio: '$3.720.000',
+      nota: 'IVA incluido · instalado',
+      ahorro: '$372.000',
+      items: ['6 paneles AlpSolar 610W N-TYPE', 'Inversor híbrido PULSE S4 12 kW', '2× Batería LiFePO4 5.12 kWh LIVO-Y', 'Cableado, cajas de protección y soporte', 'Instalación y puesta en marcha'],
+    },
+    {
+      featured: true,
+      badge: '⭐ Recomendado',
+      name: 'AlpSolar Full',
+      tag: '6.1 kW · 15.36 kWh',
+      desc: 'Para hogares de consumo alto o uso productivo. Máxima autonomía con 10 paneles y triple batería.',
+      precio: '$5.390.000',
+      nota: 'IVA incluido · instalado',
+      ahorro: '$539.000',
+      items: ['10 paneles AlpSolar 610W N-TYPE', 'Inversor híbrido PULSE S4 12 kW', '3× Batería LiFePO4 5.12 kWh LIVO-Y', 'Cableado, cajas de protección y soporte', 'Instalación y puesta en marcha'],
+    },
+  ],
+}
+
 function PlanCard({ plan, accentColor }) {
   return (
     <div className={`relative flex flex-col rounded-2xl border p-6 transition-all duration-200 hover:shadow-lg hover:-translate-y-1 ${
@@ -204,6 +249,7 @@ export default function ServiciosPrecios() {
         <div className="flex flex-col gap-10">
           <ServicioBloque servicio={camaras} />
           <ServicioBloque servicio={solar} />
+          <ServicioBloque servicio={alpsolar} />
         </div>
         <p className="text-center text-sm text-gray-400 mt-6">
           Precios referenciales · La distancia y condiciones del sitio pueden ajustar el valor final
