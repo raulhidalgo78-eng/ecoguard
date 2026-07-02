@@ -16,9 +16,10 @@ export default function AdminPage() {
   const [authed, setAuthed] = useState(false);
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
-  const [tab, setTab] = useState('facturas');
+  const [tab, setTab] = useState('instalaciones');
   const [facturas, setFacturas] = useState([]);
   const [clientes, setClientes] = useState([]);
+  const [reservas, setReservas] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -26,14 +27,16 @@ export default function AdminPage() {
     setLoading(true);
     setError('');
     try {
-      const [rf, rc] = await Promise.all([
+      const [rf, rc, rr] = await Promise.all([
         fetch('/api/admin/facturas'),
         fetch('/api/admin/clientes'),
+        fetch('/api/admin/reservas'),
       ]);
       if (rf.status === 401) { setAuthed(false); return; }
       if (!rf.ok || !rc.ok) throw new Error('Error cargando datos');
       setFacturas(await rf.json());
       setClientes(await rc.json());
+      if (rr.ok) setReservas(await rr.json());
       setAuthed(true);
     } catch (e) {
       setError(e.message);
@@ -81,9 +84,10 @@ export default function AdminPage() {
   return (
     <main className="min-h-screen bg-brand-gray">
       <header className="bg-brand-dark text-white px-6 py-4 flex items-center justify-between">
-        <h1 className="font-bold text-lg">EcoGuard · Facturación</h1>
+        <h1 className="font-bold text-lg">EcoGuard · Admin</h1>
         <nav className="flex gap-2">
           {[
+            ['instalaciones', 'Instalaciones'],
             ['facturas', 'Facturas'],
             ['clientes', 'Clientes'],
             ['resumen', 'Resumen'],
@@ -104,6 +108,7 @@ export default function AdminPage() {
       <div className="max-w-6xl mx-auto p-6">
         {error && <p className="text-red-600 mb-4">{error}</p>}
         {loading && <p className="text-gray-500 mb-4">Cargando…</p>}
+        {tab === 'instalaciones' && <Instalaciones reservas={reservas} onChange={cargar} />}
         {tab === 'facturas' && (
           <Facturas facturas={facturas} clientes={clientes} onChange={cargar} />
         )}
@@ -112,6 +117,116 @@ export default function AdminPage() {
       </div>
     </main>
   );
+}
+
+const ESTADOS_RESERVA = ['pendiente_pago', 'pagado', 'confirmado', 'cancelado']
+const ESTADO_RESERVA_COLOR = {
+  pendiente_pago: 'bg-amber-100 text-amber-800',
+  pagado: 'bg-blue-100 text-blue-800',
+  confirmado: 'bg-green-100 text-green-800',
+  cancelado: 'bg-gray-200 text-gray-500',
+}
+const ESTADO_RESERVA_LABEL = {
+  pendiente_pago: 'Pendiente',
+  pagado: 'Pagado',
+  confirmado: 'Confirmado',
+  cancelado: 'Cancelado',
+}
+
+function Instalaciones({ reservas, onChange }) {
+  const [filtro, setFiltro] = useState('todos')
+
+  const lista = filtro === 'todos' ? reservas : reservas.filter(r => r.estado === filtro)
+
+  async function cambiarEstado(id, estado) {
+    await fetch('/api/admin/reservas', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, estado }),
+    })
+    onChange()
+  }
+
+  const conteo = {
+    pendiente_pago: reservas.filter(r => r.estado === 'pendiente_pago').length,
+    pagado: reservas.filter(r => r.estado === 'pagado').length,
+    confirmado: reservas.filter(r => r.estado === 'confirmado').length,
+  }
+
+  return (
+    <div className="space-y-4">
+      {/* Métricas */}
+      <div className="grid grid-cols-3 gap-4">
+        <div className="bg-white rounded-xl shadow p-4 text-center">
+          <p className="text-2xl font-black text-amber-600">{conteo.pendiente_pago}</p>
+          <p className="text-xs text-gray-500 mt-1">Pendientes de pago</p>
+        </div>
+        <div className="bg-white rounded-xl shadow p-4 text-center">
+          <p className="text-2xl font-black text-blue-600">{conteo.pagado}</p>
+          <p className="text-xs text-gray-500 mt-1">Pagadas</p>
+        </div>
+        <div className="bg-white rounded-xl shadow p-4 text-center">
+          <p className="text-2xl font-black text-green-600">{conteo.confirmado}</p>
+          <p className="text-xs text-gray-500 mt-1">Confirmadas</p>
+        </div>
+      </div>
+
+      {/* Filtro */}
+      <div className="flex gap-2 flex-wrap">
+        {[['todos', 'Todas'], ...ESTADOS_RESERVA.map(e => [e, ESTADO_RESERVA_LABEL[e]])].map(([k, l]) => (
+          <button key={k} onClick={() => setFiltro(k)}
+            className={`px-3 py-1 rounded-full text-xs font-semibold ${filtro === k ? 'bg-brand-green text-white' : 'bg-white text-gray-500 border border-gray-200'}`}>
+            {l}
+          </button>
+        ))}
+      </div>
+
+      {/* Tabla */}
+      <div className="bg-white rounded-xl shadow overflow-x-auto">
+        <table className="w-full text-sm">
+          <thead className="bg-gray-50 text-gray-500 text-left">
+            <tr>
+              <th className="p-3">Fecha inst.</th>
+              <th className="p-3">Hora</th>
+              <th className="p-3">Cliente</th>
+              <th className="p-3">Pack</th>
+              <th className="p-3 text-right">Precio</th>
+              <th className="p-3">Comuna</th>
+              <th className="p-3">Dirección</th>
+              <th className="p-3">Contacto</th>
+              <th className="p-3">Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            {lista.map(r => (
+              <tr key={r.id} className="border-t border-gray-100 hover:bg-gray-50">
+                <td className="p-3 whitespace-nowrap font-medium">{new Date(r.fecha + 'T12:00:00').toLocaleDateString('es-CL', { weekday: 'short', day: 'numeric', month: 'short' })}</td>
+                <td className="p-3 whitespace-nowrap">{r.hora}</td>
+                <td className="p-3 font-medium">{r.nombre}</td>
+                <td className="p-3 whitespace-nowrap">{r.plan_nombre}</td>
+                <td className="p-3 text-right whitespace-nowrap">${(r.plan_precio || 0).toLocaleString('es-CL')}</td>
+                <td className="p-3 whitespace-nowrap">{r.comuna}</td>
+                <td className="p-3 max-w-[160px] truncate" title={r.direccion}>{r.direccion}</td>
+                <td className="p-3">
+                  <div className="text-xs text-gray-600">{r.email}</div>
+                  <div className="text-xs text-gray-400">{r.telefono}</div>
+                </td>
+                <td className="p-3">
+                  <select value={r.estado} onChange={e => cambiarEstado(r.id, e.target.value)}
+                    className={`rounded-full px-2 py-1 text-xs font-medium ${ESTADO_RESERVA_COLOR[r.estado]}`}>
+                    {ESTADOS_RESERVA.map(s => <option key={s} value={s}>{ESTADO_RESERVA_LABEL[s]}</option>)}
+                  </select>
+                </td>
+              </tr>
+            ))}
+            {lista.length === 0 && (
+              <tr><td colSpan={9} className="p-6 text-center text-gray-400">Sin reservas</td></tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  )
 }
 
 function Facturas({ facturas, clientes, onChange }) {

@@ -58,6 +58,7 @@ const alpsolar = {
       nota: 'IVA incluido · instalado',
       ahorro: '$50.000',
       mpLink: 'https://mpago.la/1zz9c26',
+      agendarLink: '/agendar?plan=pack-inicial',
       items: ['3 paneles AlpSolar 610W N-TYPE', 'Inversor híbrido PULSE S4 12 kW', 'Batería LiFePO4 5.12 kWh LIVO-Y', 'Cableado, cajas de protección y soporte', 'Instalación y puesta en marcha'],
     },
     {
@@ -70,6 +71,7 @@ const alpsolar = {
       nota: 'IVA incluido · instalado',
       ahorro: '$100.000',
       mpLink: 'https://mpago.la/2UUkNAQ',
+      agendarLink: '/agendar?plan=pack-intermedio',
       items: ['6 paneles AlpSolar 610W N-TYPE', 'Inversor híbrido PULSE S4 12 kW', '2× Batería LiFePO4 5.12 kWh LIVO-Y', 'Cableado, cajas de protección y soporte', 'Instalación y puesta en marcha'],
     },
     {
@@ -82,6 +84,7 @@ const alpsolar = {
       nota: 'IVA incluido · instalado',
       ahorro: '$150.000',
       mpLink: 'https://mpago.la/2XYXGMC',
+      agendarLink: '/agendar?plan=pack-full',
       items: ['10 paneles AlpSolar 610W N-TYPE', 'Inversor híbrido PULSE S4 12 kW', '3× Batería LiFePO4 5.12 kWh LIVO-Y', 'Cableado, cajas de protección y soporte', 'Instalación y puesta en marcha'],
     },
   ],
@@ -112,10 +115,10 @@ function PlanCard({ plan, accentColor }) {
           </li>
         ))}
       </ul>
-      <a href="#contacto" className={`inline-flex items-center justify-center font-semibold px-4 py-2.5 rounded-xl transition-all duration-200 text-sm w-full ${
+      <a href={plan.agendarLink || '#contacto'} className={`inline-flex items-center justify-center font-semibold px-4 py-2.5 rounded-xl transition-all duration-200 text-sm w-full ${
         plan.featured ? 'bg-brand-solar hover:bg-brand-solar-dark text-white' : 'bg-brand-green hover:bg-brand-green-dark text-white'
       }`}>
-        Solicitar este plan
+        {plan.agendarLink ? 'Agendar instalación' : 'Solicitar este plan'}
       </a>
       {plan.mpLink && (
         <a
