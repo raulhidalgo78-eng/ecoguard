@@ -3,16 +3,16 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Suspense } from 'react'
-import { CheckCircle, Calendar, MapPin, User, ChevronRight, Camera, Sun } from 'lucide-react'
+import { CheckCircle, Calendar, MapPin, User, ChevronRight, Camera, Sun, Minus, Plus } from 'lucide-react'
 
 const PLANES = [
   // Cámaras
-  { id: 'plan-estandar',   nombre: 'Plan Estándar',   precio: '$499.000',    tag: 'Sobre estructura existente', tipo: 'camara', duracion: 1, icon: Camera },
-  { id: 'plan-integral',   nombre: 'Plan Integral',   precio: '$699.000',    tag: 'Con poste 75×75',            tipo: 'camara', duracion: 1, icon: Camera },
+  { id: 'plan-estandar',   nombre: 'Plan Estándar',   precio: '$499.000',   tag: 'Sobre estructura existente', tipo: 'camara' },
+  { id: 'plan-integral',   nombre: 'Plan Integral',   precio: '$699.000',   tag: 'Con poste 75×75',           tipo: 'camara' },
   // Solar
-  { id: 'pack-inicial',    nombre: 'Pack Inicial',    precio: '$2.290.000',  tag: '1.83 kW · 5.12 kWh',        tipo: 'solar',  duracion: 1, icon: Sun },
-  { id: 'pack-intermedio', nombre: 'Pack Intermedio', precio: '$3.790.000',  tag: '3.66 kW · 10.24 kWh',       tipo: 'solar',  duracion: 2, icon: Sun },
-  { id: 'pack-full',       nombre: 'Pack Full',       precio: '$5.590.000',  tag: '6.1 kW · 15.36 kWh',        tipo: 'solar',  duracion: 2, icon: Sun },
+  { id: 'pack-inicial',    nombre: 'Pack Inicial',    precio: '$2.290.000', tag: '1.83 kW · 5.12 kWh',       tipo: 'solar' },
+  { id: 'pack-intermedio', nombre: 'Pack Intermedio', precio: '$3.790.000', tag: '3.66 kW · 10.24 kWh',      tipo: 'solar' },
+  { id: 'pack-full',       nombre: 'Pack Full',       precio: '$5.590.000', tag: '6.1 kW · 15.36 kWh',       tipo: 'solar' },
 ]
 
 const COMUNAS = [
@@ -37,6 +37,7 @@ function AgendarContent() {
 
   const [form, setForm] = useState({
     plan: PLANES.find(p => p.id === defaultPlan) ? defaultPlan : 'pack-inicial',
+    cantidad: 1,
     fecha: '',
     hora: '',
     slotLabel: '',
@@ -48,13 +49,18 @@ function AgendarContent() {
     direccion: '',
   })
 
-  // Refetch slots cuando cambia el plan y limpiar selección
+  const planSeleccionado = PLANES.find(p => p.id === form.plan)
+  const esCamara = planSeleccionado?.tipo === 'camara'
+  const duracionEstimada = esCamara ? (form.cantidad > 5 ? 2 : 1) : 1
+
+  // Refetch slots cuando cambia plan o cantidad (cámaras)
   useEffect(() => {
     let cancelled = false
     setLoadingSlots(true)
     setSlots([])
     setForm(f => ({ ...f, fecha: '', hora: '', slotLabel: '', slotEndLabel: '' }))
-    fetch(`/api/agendar/slots?plan=${form.plan}`)
+    const url = `/api/agendar/slots?plan=${form.plan}&cantidad=${form.cantidad}`
+    fetch(url)
       .then(r => r.json())
       .then(data => {
         if (!cancelled) {
@@ -64,9 +70,14 @@ function AgendarContent() {
       })
       .catch(() => { if (!cancelled) setLoadingSlots(false) })
     return () => { cancelled = true }
-  }, [form.plan])
+  }, [form.plan, form.cantidad])
 
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }))
+
+  const setCantidad = (v) => {
+    const n = Math.max(1, Math.min(20, v))
+    setForm(f => ({ ...f, cantidad: n }))
+  }
 
   const selectSlot = (slot) => {
     setForm(f => ({
@@ -95,6 +106,7 @@ function AgendarContent() {
           telefono: form.telefono,
           comuna: form.comuna,
           direccion: form.direccion,
+          cantidad: form.cantidad,
         }),
       })
       const data = await res.json()
@@ -107,7 +119,6 @@ function AgendarContent() {
     }
   }
 
-  const planSeleccionado = PLANES.find(p => p.id === form.plan)
   const camaras = PLANES.filter(p => p.tipo === 'camara')
   const solares = PLANES.filter(p => p.tipo === 'solar')
 
@@ -143,12 +154,11 @@ function AgendarContent() {
           {step === 1 && (
             <div>
               {/* Selector de servicio */}
-              <div className="mb-8">
+              <div className="mb-6">
                 <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
                   <CheckCircle className="w-5 h-5 text-brand-green" /> Selecciona tu servicio
                 </h2>
 
-                {/* Cámaras */}
                 <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                   <Camera className="w-3.5 h-3.5" /> Cámaras Solares
                 </p>
@@ -158,9 +168,7 @@ function AgendarContent() {
                       key={p.id}
                       onClick={() => set('plan', p.id)}
                       className={`flex items-center justify-between p-4 rounded-xl border-2 text-left transition-all ${
-                        form.plan === p.id
-                          ? 'border-brand-green bg-brand-green/5'
-                          : 'border-gray-100 hover:border-gray-200'
+                        form.plan === p.id ? 'border-brand-green bg-brand-green/5' : 'border-gray-100 hover:border-gray-200'
                       }`}
                     >
                       <div>
@@ -172,7 +180,6 @@ function AgendarContent() {
                   ))}
                 </div>
 
-                {/* Solar */}
                 <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                   <Sun className="w-3.5 h-3.5" /> Energía Solar
                 </p>
@@ -182,17 +189,12 @@ function AgendarContent() {
                       key={p.id}
                       onClick={() => set('plan', p.id)}
                       className={`flex items-center justify-between p-4 rounded-xl border-2 text-left transition-all ${
-                        form.plan === p.id
-                          ? 'border-brand-green bg-brand-green/5'
-                          : 'border-gray-100 hover:border-gray-200'
+                        form.plan === p.id ? 'border-brand-green bg-brand-green/5' : 'border-gray-100 hover:border-gray-200'
                       }`}
                     >
                       <div>
                         <p className={`font-bold ${form.plan === p.id ? 'text-brand-green' : 'text-gray-900'}`}>{p.nombre}</p>
                         <p className="text-xs text-gray-400 font-mono mt-0.5">{p.tag}</p>
-                        {p.duracion > 1 && (
-                          <p className="text-xs text-amber-600 mt-0.5">Instalación de {p.duracion} días</p>
-                        )}
                       </div>
                       <p className="font-black text-gray-900 shrink-0 ml-3">{p.precio}</p>
                     </button>
@@ -200,16 +202,43 @@ function AgendarContent() {
                 </div>
               </div>
 
+              {/* Cantidad de cámaras */}
+              {esCamara && (
+                <div className="mb-6 p-4 bg-gray-50 rounded-2xl">
+                  <p className="text-sm font-semibold text-gray-800 mb-3">¿Cuántas cámaras quieres instalar?</p>
+                  <div className="flex items-center gap-4">
+                    <button
+                      onClick={() => setCantidad(form.cantidad - 1)}
+                      className="w-10 h-10 rounded-xl border-2 border-gray-200 flex items-center justify-center hover:border-brand-green hover:text-brand-green transition-all"
+                    >
+                      <Minus className="w-4 h-4" />
+                    </button>
+                    <span className="text-2xl font-black text-gray-900 w-8 text-center">{form.cantidad}</span>
+                    <button
+                      onClick={() => setCantidad(form.cantidad + 1)}
+                      className="w-10 h-10 rounded-xl border-2 border-gray-200 flex items-center justify-center hover:border-brand-green hover:text-brand-green transition-all"
+                    >
+                      <Plus className="w-4 h-4" />
+                    </button>
+                    <div className={`ml-2 text-sm font-medium px-3 py-1 rounded-full ${
+                      duracionEstimada > 1
+                        ? 'bg-amber-100 text-amber-700'
+                        : 'bg-brand-green/10 text-brand-green'
+                    }`}>
+                      Instalación de {duracionEstimada} día{duracionEstimada > 1 ? 's' : ''}
+                    </div>
+                  </div>
+                  {duracionEstimada > 1 && (
+                    <p className="text-xs text-amber-600 mt-2">Para más de 5 cámaras la instalación requiere 2 días hábiles.</p>
+                  )}
+                </div>
+              )}
+
               {/* Selector de fecha */}
               <div className="mb-8">
                 <h2 className="text-lg font-bold text-gray-900 mb-1 flex items-center gap-2">
                   <Calendar className="w-5 h-5 text-brand-green" /> Elige tu fecha
                 </h2>
-                {planSeleccionado?.duracion > 1 && (
-                  <p className="text-xs text-amber-600 mb-3">
-                    La instalación dura {planSeleccionado.duracion} días hábiles. Selecciona la fecha de inicio.
-                  </p>
-                )}
                 {loadingSlots ? (
                   <div className="text-center py-8 text-gray-400">Cargando disponibilidad...</div>
                 ) : slots.length === 0 ? (
@@ -226,9 +255,7 @@ function AgendarContent() {
                           key={slot.fecha}
                           onClick={() => selectSlot(slot)}
                           className={`flex items-center justify-between p-4 rounded-xl border-2 transition-all ${
-                            selected
-                              ? 'border-brand-green bg-brand-green/5'
-                              : 'border-gray-100 hover:border-gray-200'
+                            selected ? 'border-brand-green bg-brand-green/5' : 'border-gray-100 hover:border-gray-200'
                           }`}
                         >
                           <div className="text-left">
@@ -264,7 +291,9 @@ function AgendarContent() {
             <form onSubmit={handleSubmit}>
               <div className="mb-6 p-4 bg-brand-green/5 rounded-xl border border-brand-green/20">
                 <p className="text-sm font-semibold text-brand-green">
-                  {planSeleccionado?.nombre} · {planSeleccionado?.precio}
+                  {planSeleccionado?.nombre}
+                  {esCamara && ` · ${form.cantidad} cámara${form.cantidad > 1 ? 's' : ''}`}
+                  {' · '}{planSeleccionado?.precio}
                 </p>
                 <p className="text-xs text-gray-500 mt-0.5">
                   {form.slotLabel}

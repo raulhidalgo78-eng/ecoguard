@@ -5,34 +5,25 @@ export const dynamic = 'force-dynamic'
 
 const TIMEOUT_MS = 24 * 60 * 60 * 1000
 
-// Mapa plan_nombre → tipo y duración
-const PLAN_INFO = {
-  'Pack Inicial':    { tipo: 'solar',            duracion: 1 },
-  'Pack Intermedio': { tipo: 'solar',            duracion: 2 },
-  'Pack Full':       { tipo: 'solar',            duracion: 2 },
-  'Plan Estándar':   { tipo: 'camara-sin-poste', duracion: 1 },
-  'Plan Integral':   { tipo: 'camara-con-poste', duracion: 1 },
-}
-
-const PLAN_ID_TO_NOMBRE = {
-  'pack-inicial':    'Pack Inicial',
-  'pack-intermedio': 'Pack Intermedio',
-  'pack-full':       'Pack Full',
-  'plan-estandar':   'Plan Estándar',
-  'plan-integral':   'Plan Integral',
+// Solar = Pack*, Camara = Plan*
+function getTipo(planNombre) {
+  if (!planNombre) return 'solar'
+  return planNombre.startsWith('Pack') ? 'solar' : 'camara'
 }
 
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url)
-    const planId = searchParams.get('plan') || 'pack-inicial'
-    const planNombre = PLAN_ID_TO_NOMBRE[planId] || 'Pack Inicial'
-    const planInfo = PLAN_INFO[planNombre]
+    const plan = searchParams.get('plan') || 'pack-inicial'
+    const cantidad = parseInt(searchParams.get('cantidad') || '1', 10)
 
-    // Traer reservas activas (excluir canceladas)
+    const esSolar = plan.startsWith('pack')
+    const duracion = esSolar ? 1 : (cantidad > 5 ? 2 : 1)
+
+    // Traer reservas activas con cantidad
     const reservas = await db.select(
       'reservas',
-      'estado=in.(pendiente_pago,pagado,confirmado)&select=fecha,hora,estado,plan_nombre,created_at'
+      'estado=in.(pendiente_pago,pagado,confirmado)&select=fecha,hora,estado,plan_nombre,cantidad,created_at'
     )
     const now = Date.now()
     const active = reservas.filter(r =>
@@ -43,41 +34,34 @@ export async function GET(request) {
     const workingDays = generateWorkingDays()
 
     const available = workingDays.filter(slot => {
-      if (planInfo.tipo === 'solar') {
-        // Días que bloquearía esta reserva
-        const needed = getWorkingDaysFrom(slot.fecha, planInfo.duracion)
-        // Comparar contra días bloqueados por reservas solar activas
+      const needed = getWorkingDaysFrom(slot.fecha, duracion)
+
+      if (esSolar) {
+        // Solar: 1 día — verificar que no hay otra solar ese día
         for (const r of active) {
-          const rInfo = PLAN_INFO[r.plan_nombre]
-          if (!rInfo || rInfo.tipo !== 'solar') continue
-          const rBlocked = getWorkingDaysFrom(r.fecha, rInfo.duracion)
+          if (getTipo(r.plan_nombre) !== 'solar') continue
+          if (r.fecha === slot.fecha) return false
+        }
+        return true
+      } else {
+        // Cámara: 1 cliente por día, duracion según cantidad
+        for (const r of active) {
+          if (getTipo(r.plan_nombre) !== 'camara') continue
+          const rCantidad = r.cantidad || 1
+          const rDuracion = rCantidad > 5 ? 2 : 1
+          const rBlocked = getWorkingDaysFrom(r.fecha, rDuracion)
           if (needed.some(d => rBlocked.includes(d))) return false
         }
         return true
-
-      } else if (planInfo.tipo === 'camara-con-poste') {
-        const count = active.filter(r =>
-          r.fecha === slot.fecha &&
-          PLAN_INFO[r.plan_nombre]?.tipo === 'camara-con-poste'
-        ).length
-        return count < 4
-
-      } else { // camara-sin-poste
-        const count = active.filter(r =>
-          r.fecha === slot.fecha &&
-          PLAN_INFO[r.plan_nombre]?.tipo === 'camara-sin-poste'
-        ).length
-        return count < 6
       }
     })
 
-    // Para packs de 2 días agregar label de fecha fin
+    // Agregar endLabel para instalaciones de 2 días
     const result = available.map(slot => {
-      if (planInfo.duracion > 1) {
-        const days = getWorkingDaysFrom(slot.fecha, planInfo.duracion)
+      if (duracion > 1) {
+        const days = getWorkingDaysFrom(slot.fecha, duracion)
         const endFecha = days[days.length - 1]
-        const endLabel = formatFechaCorta(endFecha)
-        return { ...slot, duracion: planInfo.duracion, endFecha, endLabel }
+        return { ...slot, duracion, endFecha, endLabel: formatFechaCorta(endFecha) }
       }
       return { ...slot, duracion: 1 }
     })

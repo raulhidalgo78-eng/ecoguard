@@ -6,51 +6,38 @@ export const dynamic = 'force-dynamic'
 const TIMEOUT_MS = 24 * 60 * 60 * 1000
 
 const PLANES = {
-  'pack-inicial':    { nombre: 'Pack Inicial',    precio: 2290000, tipo: 'solar',            duracion: 1 },
-  'pack-intermedio': { nombre: 'Pack Intermedio', precio: 3790000, tipo: 'solar',            duracion: 2 },
-  'pack-full':       { nombre: 'Pack Full',       precio: 5590000, tipo: 'solar',            duracion: 2 },
-  'plan-estandar':   { nombre: 'Plan Estándar',   precio: 499000,  tipo: 'camara-sin-poste', duracion: 1 },
-  'plan-integral':   { nombre: 'Plan Integral',   precio: 699000,  tipo: 'camara-con-poste', duracion: 1 },
+  'pack-inicial':    { nombre: 'Pack Inicial',    precio: 2290000, tipo: 'solar'  },
+  'pack-intermedio': { nombre: 'Pack Intermedio', precio: 3790000, tipo: 'solar'  },
+  'pack-full':       { nombre: 'Pack Full',       precio: 5590000, tipo: 'solar'  },
+  'plan-estandar':   { nombre: 'Plan Estándar',   precio: 499000,  tipo: 'camara' },
+  'plan-integral':   { nombre: 'Plan Integral',   precio: 699000,  tipo: 'camara' },
 }
 
-const CAPACIDAD = {
-  'camara-con-poste': 4,
-  'camara-sin-poste': 6,
-}
-
-// Obtiene tipo desde plan_nombre (para reservas existentes en DB)
 function getTipo(planNombre) {
-  const map = {
-    'Pack Inicial': 'solar', 'Pack Intermedio': 'solar', 'Pack Full': 'solar',
-    'Plan Estándar': 'camara-sin-poste', 'Plan Integral': 'camara-con-poste',
-  }
-  return map[planNombre] || 'solar'
-}
-
-// Obtiene duración desde plan_nombre
-function getDuracion(planNombre) {
-  const map = { 'Pack Inicial': 1, 'Pack Intermedio': 2, 'Pack Full': 2,
-    'Plan Estándar': 1, 'Plan Integral': 1 }
-  return map[planNombre] || 1
+  if (!planNombre) return 'solar'
+  return planNombre.startsWith('Pack') ? 'solar' : 'camara'
 }
 
 export async function POST(request) {
   try {
-    const { plan, fecha, hora, nombre, email, telefono, comuna, direccion } = await request.json()
+    const { plan, fecha, hora, nombre, email, telefono, comuna, direccion, cantidad } = await request.json()
 
-    // Validar plan
     const planData = PLANES[plan]
     if (!planData) return Response.json({ error: 'Plan inválido' }, { status: 400 })
 
-    // Validar que es un día hábil válido (hora debe ser 09:00)
+    // Validar día hábil
     const allDays = generateWorkingDays()
     const validDay = allDays.find(s => s.fecha === fecha && s.hora === hora)
     if (!validDay) return Response.json({ error: 'Fecha/hora no disponible' }, { status: 400 })
 
-    // Obtener reservas activas
+    const cantidadNum = planData.tipo === 'camara' ? Math.max(1, parseInt(cantidad || 1, 10)) : 1
+    const duracion = planData.tipo === 'camara' ? (cantidadNum > 5 ? 2 : 1) : 1
+    const needed = getWorkingDaysFrom(fecha, duracion)
+
+    // Reservas activas
     const existing = await db.select(
       'reservas',
-      'estado=in.(pendiente_pago,pagado,confirmado)&select=fecha,hora,estado,plan_nombre,created_at'
+      'estado=in.(pendiente_pago,pagado,confirmado)&select=fecha,hora,estado,plan_nombre,cantidad,created_at'
     )
     const now = Date.now()
     const active = existing.filter(r =>
@@ -59,33 +46,26 @@ export async function POST(request) {
     )
 
     if (planData.tipo === 'solar') {
-      // Verificar que todos los días necesarios están libres de solar
-      const needed = getWorkingDaysFrom(fecha, planData.duracion)
+      // Solar: 1 por día
+      if (active.some(r => getTipo(r.plan_nombre) === 'solar' && r.fecha === fecha)) {
+        return Response.json({ error: 'Esa fecha ya está reservada. Por favor elige otro día.' }, { status: 409 })
+      }
+    } else {
+      // Cámara: 1 cliente por día, verificar solapamiento con duracion
       for (const r of active) {
-        if (getTipo(r.plan_nombre) !== 'solar') continue
-        const rBlocked = getWorkingDaysFrom(r.fecha, getDuracion(r.plan_nombre))
+        if (getTipo(r.plan_nombre) !== 'camara') continue
+        const rCantidad = r.cantidad || 1
+        const rDuracion = rCantidad > 5 ? 2 : 1
+        const rBlocked = getWorkingDaysFrom(r.fecha, rDuracion)
         if (needed.some(d => rBlocked.includes(d))) {
           return Response.json(
-            { error: 'Una o más fechas ya están reservadas. Por favor elige otro día.' },
+            { error: 'Esa fecha ya está reservada. Por favor elige otro día.' },
             { status: 409 }
           )
         }
       }
-    } else {
-      // Cámara: verificar capacidad del día
-      const cap = CAPACIDAD[planData.tipo]
-      const count = active.filter(r =>
-        r.fecha === fecha && getTipo(r.plan_nombre) === planData.tipo
-      ).length
-      if (count >= cap) {
-        return Response.json(
-          { error: 'No hay más cupos disponibles para esa fecha. Por favor elige otro día.' },
-          { status: 409 }
-        )
-      }
     }
 
-    // Crear reserva
     const [reserva] = await db.insert('reservas', {
       plan_nombre: planData.nombre,
       plan_precio: planData.precio,
@@ -97,6 +77,7 @@ export async function POST(request) {
       comuna,
       direccion: direccion.trim(),
       estado: 'pendiente_pago',
+      cantidad: cantidadNum,
     })
 
     return Response.json(reserva)
