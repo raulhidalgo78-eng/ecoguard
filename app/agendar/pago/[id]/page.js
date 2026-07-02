@@ -75,7 +75,7 @@ export default function PagoPage() {
           <h2 className="text-base font-bold text-gray-900 mb-4">Resumen de tu reserva</h2>
           <div className="space-y-3 text-sm">
             <div className="flex justify-between">
-              <span className="text-gray-500">Pack</span>
+              <span className="text-gray-500">Servicio</span>
               <span className="font-semibold text-gray-900">{reserva.plan_nombre}</span>
             </div>
             <div className="flex justify-between">

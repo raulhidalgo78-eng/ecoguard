@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
-import { CheckCircle, Calendar, MapPin, Sun } from 'lucide-react'
+import { CheckCircle, Calendar, MapPin, Sun, Camera } from 'lucide-react'
 
 export default function ConfirmadoPage() {
   const { id } = useParams()
@@ -29,6 +29,10 @@ export default function ConfirmadoPage() {
       })
     : ''
 
+  const isSolar = reserva?.plan_nombre?.startsWith('Pack')
+  const PlanIcon = isSolar ? Sun : Camera
+  const iconColor = isSolar ? 'text-brand-solar' : 'text-brand-green'
+
   return (
     <main className="min-h-screen bg-brand-gray flex items-center justify-center px-4 py-16">
       <div className="max-w-md mx-auto text-center">
@@ -38,12 +42,12 @@ export default function ConfirmadoPage() {
         </div>
 
         <h1 className="text-3xl font-black text-gray-900 mb-2">¡Todo listo!</h1>
-        <p className="text-gray-500 mb-8">Tu instalación solar está confirmada. Te enviamos los detalles por email.</p>
+        <p className="text-gray-500 mb-8">Tu instalación está confirmada. Te enviamos los detalles por email.</p>
 
         {reserva && (
           <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 mb-6 text-left space-y-3">
             <div className="flex gap-3 items-start">
-              <Sun className="w-5 h-5 text-brand-solar shrink-0 mt-0.5" />
+              <PlanIcon className={`w-5 h-5 ${iconColor} shrink-0 mt-0.5`} />
               <div>
                 <p className="font-semibold text-gray-900">{reserva.plan_nombre}</p>
                 <p className="text-sm text-gray-500">${reserva.plan_precio.toLocaleString('es-CL')} · instalado</p>

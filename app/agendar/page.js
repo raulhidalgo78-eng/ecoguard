@@ -3,12 +3,16 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Suspense } from 'react'
-import { CheckCircle, Calendar, MapPin, User, ChevronRight } from 'lucide-react'
+import { CheckCircle, Calendar, MapPin, User, ChevronRight, Camera, Sun } from 'lucide-react'
 
 const PLANES = [
-  { id: 'pack-inicial',    nombre: 'Pack Inicial',    precio: '$2.290.000', tag: '1.83 kW · 5.12 kWh' },
-  { id: 'pack-intermedio', nombre: 'Pack Intermedio', precio: '$3.790.000', tag: '3.66 kW · 10.24 kWh' },
-  { id: 'pack-full',       nombre: 'Pack Full',       precio: '$5.590.000', tag: '6.1 kW · 15.36 kWh' },
+  // Cámaras
+  { id: 'plan-estandar',   nombre: 'Plan Estándar',   precio: '$499.000',    tag: 'Sobre estructura existente', tipo: 'camara', duracion: 1, icon: Camera },
+  { id: 'plan-integral',   nombre: 'Plan Integral',   precio: '$699.000',    tag: 'Con poste 75×75',            tipo: 'camara', duracion: 1, icon: Camera },
+  // Solar
+  { id: 'pack-inicial',    nombre: 'Pack Inicial',    precio: '$2.290.000',  tag: '1.83 kW · 5.12 kWh',        tipo: 'solar',  duracion: 1, icon: Sun },
+  { id: 'pack-intermedio', nombre: 'Pack Intermedio', precio: '$3.790.000',  tag: '3.66 kW · 10.24 kWh',       tipo: 'solar',  duracion: 2, icon: Sun },
+  { id: 'pack-full',       nombre: 'Pack Full',       precio: '$5.590.000',  tag: '6.1 kW · 15.36 kWh',        tipo: 'solar',  duracion: 2, icon: Sun },
 ]
 
 const COMUNAS = [
@@ -29,11 +33,14 @@ function AgendarContent() {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
 
+  const defaultPlan = searchParams.get('plan') || 'pack-inicial'
+
   const [form, setForm] = useState({
-    plan: searchParams.get('plan') || 'pack-inicial',
+    plan: PLANES.find(p => p.id === defaultPlan) ? defaultPlan : 'pack-inicial',
     fecha: '',
     hora: '',
     slotLabel: '',
+    slotEndLabel: '',
     nombre: '',
     email: '',
     telefono: '',
@@ -41,19 +48,34 @@ function AgendarContent() {
     direccion: '',
   })
 
+  // Refetch slots cuando cambia el plan y limpiar selección
   useEffect(() => {
-    fetch('/api/agendar/slots')
+    let cancelled = false
+    setLoadingSlots(true)
+    setSlots([])
+    setForm(f => ({ ...f, fecha: '', hora: '', slotLabel: '', slotEndLabel: '' }))
+    fetch(`/api/agendar/slots?plan=${form.plan}`)
       .then(r => r.json())
-      .then(data => { setSlots(data); setLoadingSlots(false) })
-      .catch(() => setLoadingSlots(false))
-  }, [])
+      .then(data => {
+        if (!cancelled) {
+          setSlots(Array.isArray(data) ? data : [])
+          setLoadingSlots(false)
+        }
+      })
+      .catch(() => { if (!cancelled) setLoadingSlots(false) })
+    return () => { cancelled = true }
+  }, [form.plan])
 
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }))
 
   const selectSlot = (slot) => {
-    set('fecha', slot.fecha)
-    set('hora', slot.hora)
-    set('slotLabel', slot.label)
+    setForm(f => ({
+      ...f,
+      fecha: slot.fecha,
+      hora: slot.hora,
+      slotLabel: slot.label,
+      slotEndLabel: slot.endLabel || '',
+    }))
   }
 
   const handleSubmit = async (e) => {
@@ -86,6 +108,8 @@ function AgendarContent() {
   }
 
   const planSeleccionado = PLANES.find(p => p.id === form.plan)
+  const camaras = PLANES.filter(p => p.tipo === 'camara')
+  const solares = PLANES.filter(p => p.tipo === 'solar')
 
   return (
     <main className="min-h-screen bg-brand-gray py-16 px-4">
@@ -102,7 +126,7 @@ function AgendarContent() {
 
         {/* Steps indicator */}
         <div className="flex items-center justify-center gap-3 mb-10">
-          {[{ n:1, label:'Plan y fecha' }, { n:2, label:'Tus datos' }, { n:3, label:'Pago' }].map((s, i) => (
+          {[{ n:1, label:'Servicio y fecha' }, { n:2, label:'Tus datos' }, { n:3, label:'Pago' }].map((s, i) => (
             <div key={s.n} className="flex items-center gap-3">
               <div className={`flex items-center gap-2 ${step >= s.n ? 'text-brand-green' : 'text-gray-300'}`}>
                 <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${step >= s.n ? 'bg-brand-green text-white' : 'bg-gray-200 text-gray-400'}`}>{s.n}</div>
@@ -118,13 +142,18 @@ function AgendarContent() {
           {/* PASO 1 */}
           {step === 1 && (
             <div>
-              {/* Plan */}
+              {/* Selector de servicio */}
               <div className="mb-8">
                 <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-brand-green" /> Selecciona tu pack
+                  <CheckCircle className="w-5 h-5 text-brand-green" /> Selecciona tu servicio
                 </h2>
-                <div className="grid gap-3">
-                  {PLANES.map(p => (
+
+                {/* Cámaras */}
+                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                  <Camera className="w-3.5 h-3.5" /> Cámaras Solares
+                </p>
+                <div className="grid gap-2 mb-4">
+                  {camaras.map(p => (
                     <button
                       key={p.id}
                       onClick={() => set('plan', p.id)}
@@ -138,17 +167,49 @@ function AgendarContent() {
                         <p className={`font-bold ${form.plan === p.id ? 'text-brand-green' : 'text-gray-900'}`}>{p.nombre}</p>
                         <p className="text-xs text-gray-400 font-mono mt-0.5">{p.tag}</p>
                       </div>
-                      <p className="font-black text-gray-900">{p.precio}</p>
+                      <p className="font-black text-gray-900 shrink-0 ml-3">{p.precio}</p>
+                    </button>
+                  ))}
+                </div>
+
+                {/* Solar */}
+                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                  <Sun className="w-3.5 h-3.5" /> Energía Solar
+                </p>
+                <div className="grid gap-2">
+                  {solares.map(p => (
+                    <button
+                      key={p.id}
+                      onClick={() => set('plan', p.id)}
+                      className={`flex items-center justify-between p-4 rounded-xl border-2 text-left transition-all ${
+                        form.plan === p.id
+                          ? 'border-brand-green bg-brand-green/5'
+                          : 'border-gray-100 hover:border-gray-200'
+                      }`}
+                    >
+                      <div>
+                        <p className={`font-bold ${form.plan === p.id ? 'text-brand-green' : 'text-gray-900'}`}>{p.nombre}</p>
+                        <p className="text-xs text-gray-400 font-mono mt-0.5">{p.tag}</p>
+                        {p.duracion > 1 && (
+                          <p className="text-xs text-amber-600 mt-0.5">Instalación de {p.duracion} días</p>
+                        )}
+                      </div>
+                      <p className="font-black text-gray-900 shrink-0 ml-3">{p.precio}</p>
                     </button>
                   ))}
                 </div>
               </div>
 
-              {/* Fecha */}
+              {/* Selector de fecha */}
               <div className="mb-8">
-                <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <h2 className="text-lg font-bold text-gray-900 mb-1 flex items-center gap-2">
                   <Calendar className="w-5 h-5 text-brand-green" /> Elige tu fecha
                 </h2>
+                {planSeleccionado?.duracion > 1 && (
+                  <p className="text-xs text-amber-600 mb-3">
+                    La instalación dura {planSeleccionado.duracion} días hábiles. Selecciona la fecha de inicio.
+                  </p>
+                )}
                 {loadingSlots ? (
                   <div className="text-center py-8 text-gray-400">Cargando disponibilidad...</div>
                 ) : slots.length === 0 ? (
@@ -157,27 +218,33 @@ function AgendarContent() {
                     <p className="text-sm mt-1">Contáctanos a ventas@ecoguard.cl</p>
                   </div>
                 ) : (
-                  <div className="grid gap-3">
-                    {slots.map(slot => (
-                      <button
-                        key={`${slot.fecha}_${slot.hora}`}
-                        onClick={() => selectSlot(slot)}
-                        className={`flex items-center justify-between p-4 rounded-xl border-2 transition-all ${
-                          form.fecha === slot.fecha && form.hora === slot.hora
-                            ? 'border-brand-green bg-brand-green/5'
-                            : 'border-gray-100 hover:border-gray-200'
-                        }`}
-                      >
-                        <span className={`font-semibold ${form.fecha === slot.fecha && form.hora === slot.hora ? 'text-brand-green' : 'text-gray-900'}`}>
-                          {slot.label}
-                        </span>
-                        <span className={`text-sm font-mono px-3 py-1 rounded-full ${
-                          form.fecha === slot.fecha && form.hora === slot.hora
-                            ? 'bg-brand-green text-white'
-                            : 'bg-gray-100 text-gray-600'
-                        }`}>{slot.hora}</span>
-                      </button>
-                    ))}
+                  <div className="grid gap-2 mt-3">
+                    {slots.map(slot => {
+                      const selected = form.fecha === slot.fecha
+                      return (
+                        <button
+                          key={slot.fecha}
+                          onClick={() => selectSlot(slot)}
+                          className={`flex items-center justify-between p-4 rounded-xl border-2 transition-all ${
+                            selected
+                              ? 'border-brand-green bg-brand-green/5'
+                              : 'border-gray-100 hover:border-gray-200'
+                          }`}
+                        >
+                          <div className="text-left">
+                            <span className={`font-semibold ${selected ? 'text-brand-green' : 'text-gray-900'}`}>
+                              {slot.label}
+                              {slot.endLabel && (
+                                <span className="font-normal text-gray-400"> → {slot.endLabel}</span>
+                              )}
+                            </span>
+                          </div>
+                          <span className={`text-sm font-mono px-3 py-1 rounded-full shrink-0 ml-3 ${
+                            selected ? 'bg-brand-green text-white' : 'bg-gray-100 text-gray-600'
+                          }`}>09:00</span>
+                        </button>
+                      )
+                    })}
                   </div>
                 )}
               </div>
@@ -196,8 +263,14 @@ function AgendarContent() {
           {step === 2 && (
             <form onSubmit={handleSubmit}>
               <div className="mb-6 p-4 bg-brand-green/5 rounded-xl border border-brand-green/20">
-                <p className="text-sm font-semibold text-brand-green">{planSeleccionado?.nombre} · {planSeleccionado?.precio}</p>
-                <p className="text-xs text-gray-500 mt-0.5">{form.slotLabel} a las {form.hora}</p>
+                <p className="text-sm font-semibold text-brand-green">
+                  {planSeleccionado?.nombre} · {planSeleccionado?.precio}
+                </p>
+                <p className="text-xs text-gray-500 mt-0.5">
+                  {form.slotLabel}
+                  {form.slotEndLabel ? ` → ${form.slotEndLabel}` : ''}
+                  {' · 09:00'}
+                </p>
               </div>
 
               <h2 className="text-lg font-bold text-gray-900 mb-5 flex items-center gap-2">
@@ -264,7 +337,7 @@ function AgendarContent() {
         </div>
 
         <p className="text-center text-xs text-gray-400 mt-6">
-          Tu horario queda reservado por 24 horas mientras completas el pago
+          Tu fecha queda reservada por 24 horas mientras completas el pago
         </p>
       </div>
     </main>
