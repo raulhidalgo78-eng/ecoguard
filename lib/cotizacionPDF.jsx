@@ -24,9 +24,9 @@ const s = StyleSheet.create({
     alignItems: 'flex-start',
     marginBottom: 6,
   },
-  marca:    { fontSize: 28, fontFamily: 'Helvetica-Bold', color: '#111827', letterSpacing: 0.5 },
-  empresa:  { fontSize: 8, color: '#6b7280', marginTop: 4 },
-  contacto: { fontSize: 8, color: '#6b7280', marginTop: 1 },
+  marca:    { fontSize: 20, fontFamily: 'Helvetica-Bold', color: '#111827', letterSpacing: 0.5, marginBottom: 6 },
+  empresa:  { fontSize: 8, color: '#6b7280', marginBottom: 2 },
+  contacto: { fontSize: 8, color: '#6b7280' },
 
   numBlk:   { alignItems: 'flex-end' },
   numLbl:   { fontSize: 7, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: 1 },
