@@ -51,8 +51,8 @@ const alpsolar = {
   image: '/images/instalacion-paneles.png',
   imagePosition: 'center',
   title: 'Energía Solar · Packs Instalados AlpSolar',
-  description: '¿Estás construyendo una cabaña o quieres dejar de pagar una cuenta elevada de luz? Aprovecha nuestros packs instalados llave en mano. Todos los packs incluyen el mismo inversor PULSE S4 de 12 kW — puedes partir con el Pack Inicial y escalar añadiendo paneles y baterías cuando lo necesites, sin cambiar el inversor.',
-  features: ['Inversor 12 kW · escala sin cambiarlo', 'WiFi y Bluetooth + app móvil', 'Compatible con generador diésel/gasolina', 'Autonomía eléctrica', 'Paneles 610W N-TYPE alta eficiencia', 'IP66 · apto intemperie'],
+  description: '¿Estás construyendo una cabaña o quieres dejar de pagar una cuenta elevada de luz? Aprovecha nuestros packs instalados llave en mano. Todos los packs incluyen el mismo inversor PULSE S4 de 8 kW — puedes partir con el Pack Inicial y escalar añadiendo paneles y baterías cuando lo necesites, sin cambiar el inversor.',
+  features: ['Inversor 8 kW · escala sin cambiarlo', 'WiFi y Bluetooth + app móvil', 'Compatible con generador diésel/gasolina', 'Autonomía eléctrica', 'Paneles 610W N-TYPE alta eficiencia', 'IP66 · apto intemperie'],
   planes: [
     {
       featured: true,
@@ -66,7 +66,7 @@ const alpsolar = {
       agendarLink: '/agendar?plan=pack-inicial',
       planId: 'pack-inicial',
       precioNum: 2290000,
-      items: ['3 paneles AlpSolar 610W N-TYPE', 'Inversor híbrido PULSE S4 12 kW', 'Batería LiFePO4 5.12 kWh LIVO-Y', 'Cableado, cajas de protección y soporte', 'Instalación y puesta en marcha'],
+      items: ['3 paneles AlpSolar 610W N-TYPE', 'Inversor híbrido PULSE S4 8 kW', 'Batería LiFePO4 5.12 kWh LIVO-Y', 'Cableado, cajas de protección y soporte', 'Instalación y puesta en marcha'],
     },
     {
       featured: false,
@@ -80,7 +80,7 @@ const alpsolar = {
       agendarLink: '/agendar?plan=pack-intermedio',
       planId: 'pack-intermedio',
       precioNum: 3790000,
-      items: ['6 paneles AlpSolar 610W N-TYPE', 'Inversor híbrido PULSE S4 12 kW', '2× Batería LiFePO4 5.12 kWh LIVO-Y', 'Cableado, cajas de protección y soporte', 'Instalación y puesta en marcha'],
+      items: ['6 paneles AlpSolar 610W N-TYPE', 'Inversor híbrido PULSE S4 8 kW', '2× Batería LiFePO4 5.12 kWh LIVO-Y', 'Cableado, cajas de protección y soporte', 'Instalación y puesta en marcha'],
     },
     {
       featured: false,
@@ -94,7 +94,7 @@ const alpsolar = {
       agendarLink: '/agendar?plan=pack-full',
       planId: 'pack-full',
       precioNum: 5590000,
-      items: ['10 paneles AlpSolar 610W N-TYPE', 'Inversor híbrido PULSE S4 12 kW', '3× Batería LiFePO4 5.12 kWh LIVO-Y', 'Cableado, cajas de protección y soporte', 'Instalación y puesta en marcha'],
+      items: ['10 paneles AlpSolar 610W N-TYPE', 'Inversor híbrido PULSE S4 8 kW', '3× Batería LiFePO4 5.12 kWh LIVO-Y', 'Cableado, cajas de protección y soporte', 'Instalación y puesta en marcha'],
     },
   ],
 }
