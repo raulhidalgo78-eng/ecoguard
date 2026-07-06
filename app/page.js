@@ -1,6 +1,5 @@
 import Image from 'next/image'
 import Navbar from './components/Navbar'
-import ContactForm from './components/ContactForm'
 import ServiciosPrecios from './components/ServiciosPrecios'
 import { Camera, Sun, Shield, Wifi, Zap, MapPin, Phone, Mail, ChevronRight, CheckCircle, Eye, Brain, Battery, Wrench, PhoneCall, Star, Smartphone } from 'lucide-react'
 
@@ -222,31 +221,23 @@ function AppEnAccion() {
 
 function Contacto() {
   return (
-    <section id="contacto" className="py-24 bg-brand-gray">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
-          <div>
-            <div className="inline-flex items-center gap-2 bg-brand-green/10 text-brand-green rounded-full px-4 py-1.5 text-sm font-medium mb-4">Contacto</div>
-            <h2 className="section-title mb-4">Cotiza sin compromiso</h2>
-            <p className="section-subtitle mb-8">Cuéntanos sobre tu propiedad y te preparamos una propuesta personalizada. Asesoría 100% gratuita.</p>
-            <div className="space-y-4">
-              <a href="tel:+56971516101" className="flex items-center gap-4 bg-white rounded-2xl p-5 hover:shadow-md transition-shadow group">
-                <div className="w-12 h-12 bg-brand-green/10 rounded-xl flex items-center justify-center group-hover:bg-brand-green/20 transition-colors"><Phone className="w-6 h-6 text-brand-green" /></div>
-                <div><div className="text-xs text-gray-500 mb-0.5">Llámanos o escríbenos</div><div className="font-bold text-gray-900">+56 9 7151 6101</div></div>
-              </a>
-              <a href="mailto:ventas@ecoguard.cl" className="flex items-center gap-4 bg-white rounded-2xl p-5 hover:shadow-md transition-shadow group">
-                <div className="w-12 h-12 bg-brand-green/10 rounded-xl flex items-center justify-center group-hover:bg-brand-green/20 transition-colors"><Mail className="w-6 h-6 text-brand-green" /></div>
-                <div><div className="text-xs text-gray-500 mb-0.5">Escríbenos al email</div><div className="font-bold text-gray-900">ventas@ecoguard.cl</div></div>
-              </a>
-              <div className="flex items-center gap-4 bg-white rounded-2xl p-5">
-                <div className="w-12 h-12 bg-brand-green/10 rounded-xl flex items-center justify-center"><MapPin className="w-6 h-6 text-brand-green" /></div>
-                <div><div className="text-xs text-gray-500 mb-0.5">Zona de operación</div><div className="font-bold text-gray-900">Región de Valparaíso, Chile</div></div>
-              </div>
-            </div>
-          </div>
-          <div className="card">
-            <h3 className="text-xl font-bold text-gray-900 mb-6">Solicita tu cotización</h3>
-            <ContactForm />
+    <section id="contacto" className="py-16 bg-brand-gray">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="inline-flex items-center gap-2 bg-brand-green/10 text-brand-green rounded-full px-4 py-1.5 text-sm font-medium mb-4">Contacto</div>
+        <h2 className="section-title mb-2">¿Tienes dudas? Escríbenos</h2>
+        <p className="section-subtitle mb-8">Asesoría gratuita. Te respondemos rápido.</p>
+        <div className="grid sm:grid-cols-3 gap-4">
+          <a href="tel:+56971516101" className="flex items-center gap-4 bg-white rounded-2xl p-5 hover:shadow-md transition-shadow group">
+            <div className="w-12 h-12 bg-brand-green/10 rounded-xl flex items-center justify-center group-hover:bg-brand-green/20 transition-colors flex-shrink-0"><Phone className="w-6 h-6 text-brand-green" /></div>
+            <div className="text-left"><div className="text-xs text-gray-500 mb-0.5">Teléfono</div><div className="font-bold text-gray-900 text-sm">+56 9 7151 6101</div></div>
+          </a>
+          <a href="mailto:ventas@ecoguard.cl" className="flex items-center gap-4 bg-white rounded-2xl p-5 hover:shadow-md transition-shadow group">
+            <div className="w-12 h-12 bg-brand-green/10 rounded-xl flex items-center justify-center group-hover:bg-brand-green/20 transition-colors flex-shrink-0"><Mail className="w-6 h-6 text-brand-green" /></div>
+            <div className="text-left"><div className="text-xs text-gray-500 mb-0.5">Email</div><div className="font-bold text-gray-900 text-sm">ventas@ecoguard.cl</div></div>
+          </a>
+          <div className="flex items-center gap-4 bg-white rounded-2xl p-5">
+            <div className="w-12 h-12 bg-brand-green/10 rounded-xl flex items-center justify-center flex-shrink-0"><MapPin className="w-6 h-6 text-brand-green" /></div>
+            <div className="text-left"><div className="text-xs text-gray-500 mb-0.5">Cobertura</div><div className="font-bold text-gray-900 text-sm">Región de Valparaíso</div></div>
           </div>
         </div>
       </div>
