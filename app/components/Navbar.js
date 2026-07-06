@@ -7,7 +7,6 @@ import Image from 'next/image'
 const navLinks = [
   { href: '#servicios', label: 'Servicios' },
   { href: '#cobertura', label: 'Cobertura' },
-  { href: '#contacto', label: 'Cotizar' },
 ]
 
 export default function Navbar() {
