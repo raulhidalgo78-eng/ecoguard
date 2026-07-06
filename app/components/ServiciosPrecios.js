@@ -155,49 +155,51 @@ function ServicioBloque({ servicio }) {
   const [cotizarPlan, setCotizarPlan] = useState(null)
 
   return (
-    <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-      {/* Imagen */}
-      <div className="relative w-full aspect-[4/3] sm:aspect-[16/7] overflow-hidden">
-        <Image
-          src={servicio.image}
-          alt={servicio.title}
-          fill
-          sizes="(max-width: 768px) 100vw, 50vw"
-          className="object-cover"
-          style={{ objectPosition: servicio.imagePosition }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-      </div>
-
-      {/* Info del servicio */}
-      <div className="p-8 pb-4">
-        <div className={`w-12 h-12 ${servicio.color} rounded-2xl flex items-center justify-center mb-4`}>
-          <Icon className="w-6 h-6" />
+    <>
+      <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+        {/* Imagen */}
+        <div className="relative w-full aspect-[4/3] sm:aspect-[16/7] overflow-hidden">
+          <Image
+            src={servicio.image}
+            alt={servicio.title}
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-cover"
+            style={{ objectPosition: servicio.imagePosition }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
         </div>
-        <h3 className="text-2xl font-bold text-gray-900 mb-3">{servicio.title}</h3>
-        <p className="text-gray-600 leading-relaxed mb-5">{servicio.description}</p>
-        <ul className={`grid grid-cols-2 gap-2 mb-8`}>
-          {servicio.features.map((f) => (
-            <li key={f} className="flex items-center gap-2 text-sm text-gray-700">
-              <CheckCircle className="w-4 h-4 text-brand-green flex-shrink-0" />{f}
-            </li>
-          ))}
-        </ul>
-      </div>
 
-      {/* Planes */}
-      <div className={`px-8 pb-8 grid gap-5 ${esSolar ? 'sm:grid-cols-3' : 'sm:grid-cols-2'}`}>
-        {servicio.planes.map((plan) => (
-          <PlanCard key={plan.name} plan={plan} onCotizar={() => setCotizarPlan(plan)} />
-        ))}
+        {/* Info del servicio */}
+        <div className="p-8 pb-4">
+          <div className={`w-12 h-12 ${servicio.color} rounded-2xl flex items-center justify-center mb-4`}>
+            <Icon className="w-6 h-6" />
+          </div>
+          <h3 className="text-2xl font-bold text-gray-900 mb-3">{servicio.title}</h3>
+          <p className="text-gray-600 leading-relaxed mb-5">{servicio.description}</p>
+          <ul className={`grid grid-cols-2 gap-2 mb-8`}>
+            {servicio.features.map((f) => (
+              <li key={f} className="flex items-center gap-2 text-sm text-gray-700">
+                <CheckCircle className="w-4 h-4 text-brand-green flex-shrink-0" />{f}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Planes */}
+        <div className={`px-8 pb-8 grid gap-5 ${esSolar ? 'sm:grid-cols-3' : 'sm:grid-cols-2'}`}>
+          {servicio.planes.map((plan) => (
+            <PlanCard key={plan.name} plan={plan} onCotizar={() => setCotizarPlan(plan)} />
+          ))}
+        </div>
       </div>
-    </div>
       {cotizarPlan && (
         <CotizarModal
           plan={{ id: cotizarPlan.planId, nombre: cotizarPlan.name, precioNum: cotizarPlan.precioNum }}
           onClose={() => setCotizarPlan(null)}
         />
       )}
+    </>
   )
 }
 
