@@ -1,7 +1,9 @@
 'use client'
 
+import { useState } from 'react'
 import Image from 'next/image'
-import { Camera, Sun, CheckCircle } from 'lucide-react'
+import { Camera, Sun, CheckCircle, FileText } from 'lucide-react'
+import CotizarModal from './CotizarModal'
 
 const camaras = {
   icon: Camera,
@@ -22,6 +24,8 @@ const camaras = {
       nota: 'IVA incluido · instalada',
       ahorro: '$9.000',
       agendarLink: '/agendar?plan=plan-estandar',
+      planId: 'plan-estandar',
+      precioNum: 499000,
       items: ['Cámara Dahua Solar PTZ 4G doble lente', 'Tarjeta microSD 256 GB', 'SIM de datos activada', 'Instalación profesional', 'Configuración y puesta en marcha'],
     },
     {
@@ -34,6 +38,8 @@ const camaras = {
       nota: 'IVA incluido · instalada',
       ahorro: '$9.000',
       agendarLink: '/agendar?plan=plan-integral',
+      planId: 'plan-integral',
+      precioNum: 699000,
       items: ['Cámara Dahua Solar PTZ 4G doble lente', 'Tarjeta microSD 256 GB', 'SIM de datos activada', 'Poste de acero 75×75 con fundación', 'Instalación profesional + puesta en marcha'],
     },
   ],
@@ -58,6 +64,8 @@ const alpsolar = {
       nota: 'IVA incluido · instalado',
       ahorro: '$50.000',
       agendarLink: '/agendar?plan=pack-inicial',
+      planId: 'pack-inicial',
+      precioNum: 2290000,
       items: ['3 paneles AlpSolar 610W N-TYPE', 'Inversor híbrido PULSE S4 12 kW', 'Batería LiFePO4 5.12 kWh LIVO-Y', 'Cableado, cajas de protección y soporte', 'Instalación y puesta en marcha'],
     },
     {
@@ -70,6 +78,8 @@ const alpsolar = {
       nota: 'IVA incluido · instalado',
       ahorro: '$100.000',
       agendarLink: '/agendar?plan=pack-intermedio',
+      planId: 'pack-intermedio',
+      precioNum: 3790000,
       items: ['6 paneles AlpSolar 610W N-TYPE', 'Inversor híbrido PULSE S4 12 kW', '2× Batería LiFePO4 5.12 kWh LIVO-Y', 'Cableado, cajas de protección y soporte', 'Instalación y puesta en marcha'],
     },
     {
@@ -82,12 +92,14 @@ const alpsolar = {
       nota: 'IVA incluido · instalado',
       ahorro: '$150.000',
       agendarLink: '/agendar?plan=pack-full',
+      planId: 'pack-full',
+      precioNum: 5590000,
       items: ['10 paneles AlpSolar 610W N-TYPE', 'Inversor híbrido PULSE S4 12 kW', '3× Batería LiFePO4 5.12 kWh LIVO-Y', 'Cableado, cajas de protección y soporte', 'Instalación y puesta en marcha'],
     },
   ],
 }
 
-function PlanCard({ plan, accentColor }) {
+function PlanCard({ plan, onCotizar }) {
   return (
     <div className={`relative flex flex-col rounded-2xl border p-6 transition-all duration-200 hover:shadow-lg hover:-translate-y-1 ${
       plan.featured ? 'bg-brand-dark border-brand-solar shadow-md' : 'bg-white border-gray-100 shadow-sm'
@@ -117,6 +129,17 @@ function PlanCard({ plan, accentColor }) {
       }`}>
         {plan.agendarLink ? 'Agendar instalación' : 'Solicitar este plan'}
       </a>
+      <button
+        onClick={onCotizar}
+        className={`inline-flex items-center justify-center gap-2 font-semibold px-4 py-2.5 rounded-xl transition-all duration-200 text-sm w-full mt-2 border ${
+          plan.featured
+            ? 'border-white/20 text-white/70 hover:bg-white/10'
+            : 'border-gray-200 text-gray-600 hover:bg-gray-50'
+        }`}
+      >
+        <FileText className="w-4 h-4" />
+        Solicitar cotización PDF
+      </button>
       {plan.ahorro && (
         <p className={`text-xs text-center mt-2 font-medium ${plan.featured ? 'text-brand-solar' : 'text-brand-green'}`}>
           Con transferencia o depósito ahorras <span className="font-bold">{plan.ahorro}</span>
@@ -129,6 +152,7 @@ function PlanCard({ plan, accentColor }) {
 function ServicioBloque({ servicio }) {
   const Icon = servicio.icon
   const esSolar = servicio.planes.length === 3
+  const [cotizarPlan, setCotizarPlan] = useState(null)
 
   return (
     <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
@@ -164,10 +188,16 @@ function ServicioBloque({ servicio }) {
       {/* Planes */}
       <div className={`px-8 pb-8 grid gap-5 ${esSolar ? 'sm:grid-cols-3' : 'sm:grid-cols-2'}`}>
         {servicio.planes.map((plan) => (
-          <PlanCard key={plan.name} plan={plan} />
+          <PlanCard key={plan.name} plan={plan} onCotizar={() => setCotizarPlan(plan)} />
         ))}
       </div>
     </div>
+      {cotizarPlan && (
+        <CotizarModal
+          plan={{ id: cotizarPlan.planId, nombre: cotizarPlan.name, precioNum: cotizarPlan.precioNum }}
+          onClose={() => setCotizarPlan(null)}
+        />
+      )}
   )
 }
 
