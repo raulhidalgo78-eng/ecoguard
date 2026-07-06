@@ -52,11 +52,11 @@ const alpsolar = {
   imagePosition: 'center',
   title: 'Energía Solar · Packs Instalados AlpSolar',
   description: '¿Estás construyendo una cabaña o quieres dejar de pagar una cuenta elevada de luz? Aprovecha nuestros packs instalados llave en mano. Todos los packs incluyen el mismo inversor PULSE S4 de 12 kW — puedes partir con el Pack Inicial y escalar añadiendo paneles y baterías cuando lo necesites, sin cambiar el inversor.',
-  features: ['Inversor 12 kW · escala sin cambiarlo', 'WiFi y Bluetooth + app móvil', 'Compatible con generador diésel/gasolina', 'Autoconsumo directo · sin inyección a la red', 'Paneles 610W N-TYPE alta eficiencia', 'IP66 · apto intemperie'],
+  features: ['Inversor 12 kW · escala sin cambiarlo', 'WiFi y Bluetooth + app móvil', 'Compatible con generador diésel/gasolina', 'Autonomía eléctrica', 'Paneles 610W N-TYPE alta eficiencia', 'IP66 · apto intemperie'],
   planes: [
     {
-      featured: false,
-      badge: 'Pack Inicial',
+      featured: true,
+      badge: '⭐ Recomendado',
       name: 'Pack Inicial',
       tag: '1.83 kW producción · 5.12 kWh almacenamiento',
       desc: 'Produce ~300 kWh/mes · ideal para casas con consumo de 150–250 kWh/mes. Sistema híbrido con batería: funciona con o sin red eléctrica. Escala sin cambiar el inversor.',
@@ -83,8 +83,8 @@ const alpsolar = {
       items: ['6 paneles AlpSolar 610W N-TYPE', 'Inversor híbrido PULSE S4 12 kW', '2× Batería LiFePO4 5.12 kWh LIVO-Y', 'Cableado, cajas de protección y soporte', 'Instalación y puesta en marcha'],
     },
     {
-      featured: true,
-      badge: '⭐ Recomendado',
+      featured: false,
+      badge: 'Pack Full',
       name: 'Pack Full',
       tag: '6.1 kW producción · 15.36 kWh almacenamiento',
       desc: 'Produce ~1.000 kWh/mes · ideal para consumos de 500–800 kWh/mes. Sistema híbrido con triple batería y máxima independencia energética.',
