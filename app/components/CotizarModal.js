@@ -37,6 +37,19 @@ export default function CotizarModal({ plan, onClose }) {
       })
       const data = await res.json()
       if (!res.ok) { setError(data.error || 'Error al generar cotización'); return }
+
+      // Descarga automática del PDF
+      if (data.pdf) {
+        const bytes = Uint8Array.from(atob(data.pdf), c => c.charCodeAt(0))
+        const blob  = new Blob([bytes], { type: 'application/pdf' })
+        const url   = URL.createObjectURL(blob)
+        const a     = document.createElement('a')
+        a.href      = url
+        a.download  = data.filename || `Cotizacion-EcoGuard-${data.numero}.pdf`
+        a.click()
+        URL.revokeObjectURL(url)
+      }
+
       setNumero(data.numero)
     } catch {
       setError('Error de conexión. Intenta nuevamente.')
@@ -75,8 +88,8 @@ export default function CotizarModal({ plan, onClose }) {
               <h3 className="text-xl font-black text-gray-900 mb-2">¡Cotización enviada!</h3>
               <p className="text-gray-500 text-sm mb-1">Número de cotización: <span className="font-mono font-bold text-gray-900">{numero}</span></p>
               <p className="text-gray-500 text-sm mb-6">
-                Revisa tu bandeja de entrada — te enviamos el PDF formal válido por 30 días,
-                apto para solicitar crédito verde en la banca.
+                Tu cotización PDF se descargó automáticamente. Válida por 30 días,
+                apta para solicitar crédito verde en la banca.
               </p>
               <button onClick={onClose}
                 className="px-6 py-2.5 rounded-xl bg-brand-green text-white font-semibold hover:bg-brand-green-dark transition-all">

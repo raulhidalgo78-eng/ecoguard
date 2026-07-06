@@ -81,36 +81,48 @@ export async function POST(request) {
       })
     )
 
-    // Enviar email con PDF adjunto
-    await fetch('https://api.resend.com/emails', {
-      method:  'POST',
-      headers: {
-        'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
-        'Content-Type':  'application/json',
-      },
-      body: JSON.stringify({
-        from:    'EcoGuard <instalaciones@ecoguard.cl>',
-        to:      [email],
-        bcc:     ['ventas@ecoguard.cl'],
-        subject: `Cotización EcoGuard N° ${num} — ${planLabel}`,
-        html: `
-          <div style="font-family:sans-serif;max-width:560px;margin:0 auto;color:#111;">
-            <h2 style="color:#16a34a;margin-bottom:4px;">Hola ${nombre},</h2>
-            <p>Adjunto encontrarás tu cotización formal <strong>N° ${num}</strong> para el servicio <strong>${planLabel}</strong>.</p>
-            <p>Este documento tiene una validez de <strong>30 días</strong> y puede ser presentado en instituciones bancarias para solicitar financiamiento o crédito verde.</p>
-            <p>Para agendar tu instalación visita <a href="https://ecoguard.cl/agendar">ecoguard.cl/agendar</a></p>
-            <p>¿Tienes preguntas? Escríbenos a <a href="mailto:ventas@ecoguard.cl">ventas@ecoguard.cl</a></p>
-            <hr style="border:none;border-top:1px solid #e5e7eb;margin:20px 0;">
-            <p style="color:#6b7280;font-size:12px;">EcoGuard · Aconcagua Tec. e Inn. SpA · RUT 78.433.166-0</p>
-          </div>`,
-        attachments: [{
-          filename: `Cotizacion-EcoGuard-${num}.pdf`,
-          content:  Buffer.from(pdfBuffer).toString('base64'),
-        }],
-      }),
-    })
+    // Intentar enviar email (no bloquea si falla)
+    try {
+      if (process.env.RESEND_API_KEY) {
+        await fetch('https://api.resend.com/emails', {
+          method:  'POST',
+          headers: {
+            'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+            'Content-Type':  'application/json',
+          },
+          body: JSON.stringify({
+            from:    'EcoGuard <instalaciones@ecoguard.cl>',
+            to:      [email],
+            bcc:     ['ventas@ecoguard.cl'],
+            subject: `Cotización EcoGuard N° ${num} — ${planLabel}`,
+            html: `
+              <div style="font-family:sans-serif;max-width:560px;margin:0 auto;color:#111;">
+                <h2 style="color:#16a34a;margin-bottom:4px;">Hola ${nombre},</h2>
+                <p>Adjunto encontrarás tu cotización formal <strong>N° ${num}</strong> para el servicio <strong>${planLabel}</strong>.</p>
+                <p>Este documento tiene una validez de <strong>30 días</strong> y puede ser presentado en instituciones bancarias para solicitar financiamiento o crédito verde.</p>
+                <p>Para agendar tu instalación visita <a href="https://ecoguard.cl/agendar">ecoguard.cl/agendar</a></p>
+                <p>¿Tienes preguntas? Escríbenos a <a href="mailto:ventas@ecoguard.cl">ventas@ecoguard.cl</a></p>
+                <hr style="border:none;border-top:1px solid #e5e7eb;margin:20px 0;">
+                <p style="color:#6b7280;font-size:12px;">EcoGuard · Aconcagua Tec. e Inn. SpA · RUT 78.433.166-0</p>
+              </div>`,
+            attachments: [{
+              filename: `Cotizacion-EcoGuard-${num}.pdf`,
+              content:  Buffer.from(pdfBuffer).toString('base64'),
+            }],
+          }),
+        })
+      }
+    } catch (emailErr) {
+      console.error('[cotizar] email error (non-blocking):', emailErr)
+    }
 
-    return Response.json({ ok: true, numero: num })
+    // Siempre devolver el PDF en base64 para descarga directa en el browser
+    return Response.json({
+      ok:     true,
+      numero: num,
+      pdf:    Buffer.from(pdfBuffer).toString('base64'),
+      filename: `Cotizacion-EcoGuard-${num}.pdf`,
+    })
   } catch (e) {
     console.error('[cotizar]', e)
     return Response.json({ error: e.message }, { status: 500 })
