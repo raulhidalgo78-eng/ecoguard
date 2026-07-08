@@ -190,7 +190,7 @@ export function CotizacionPDF({ numero, fecha, validaHasta, cliente, plan }) {
             <Text style={s.creditTxt}>
               El sistema cotizado corresponde a un proyecto de energía renovable no convencional (ERNC)
               con almacenamiento en baterías de litio-hierro-fosfato (LiFePO4), operación híbrida
-              y control inteligente mediante inversor PULSE S4. Este tipo de proyecto es elegible para
+              y control inteligente mediante inversor SUNPRO 11 kW. Este tipo de proyecto es elegible para
               la línea de Crédito Verde y financiamiento sostenible ofrecido por instituciones bancarias
               en Chile (Banco Estado, BCI, Santander, entre otros). Esta cotización puede ser presentada
               como respaldo técnico y económico ante cualquier institución financiera.
